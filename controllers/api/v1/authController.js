@@ -126,6 +126,11 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   if (!user) {
     return next(new AppError('User not found', 404));
   }
+
+  if (user.emailVerification === false) {
+    return next(new AppError('verify your email first', 401));
+  }
+
   const resetToken = await user.changedPasswordResetToken();
   await user.save({ validateBeforeSave: false });
 
@@ -187,10 +192,33 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
     return next(new AppError('Token is invalid or expired', 400));
   }
 
+  if (user.emailVerification === false) {
+    return next(new AppError('verify your email', 401));
+  }
+
   user.password = req.body.password;
   user.confirmPassword = req.body.confirmPassword;
   user.passwordResetToken = undefined;
   user.passwordResetExpires = undefined;
+  await user.save();
+
+  createSendToken(user, 200, req, res);
+});
+
+exports.updatePassword = catchAsync(async (req, res, next) => {
+  console.log(req.body);
+  const user = await User.findById(req.user.id).select('+password');
+
+  const pass = await user.checkPassword(
+    req.body.currentPassword,
+    user.password,
+  );
+  console.log(pass);
+  if (!pass) {
+    return next(new AppError('Your current password is incorrect', 401));
+  }
+  user.password = req.body.password;
+  user.confirmPassword = req.body.confirmPassword;
   await user.save();
 
   createSendToken(user, 200, req, res);
