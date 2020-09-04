@@ -2,6 +2,7 @@ const User = require('../../../models/user');
 const jwt = require('jsonwebtoken');
 const catchAsync = require('../../../config/catchAsynch');
 const AppError = require('../../../config/AppError');
+const crypto = require('crypto');
 
 const signToken = (id) => {
   return jwt.sign(id, process.env.JWT_SECRET_KEY, {
@@ -19,7 +20,7 @@ const createSendToken = (user, statusCode, req, res) => {
     httpOnly: true,
   });
 
-  res.status(200).json({
+  res.status(statusCode).json({
     status: 'success',
     data: {
       token,
@@ -57,6 +58,18 @@ exports.createSession = catchAsync(async (req, res, next) => {
   createSendToken(user, 200, req, res);
 });
 
+exports.forgotPassword = catchAsync(async (req, res, next) => {
+  const { email } = req.body;
+
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    return next(new AppError('User not found', 404));
+  }
+  const resetToken = user.changedPasswordResetToken();
+  await user.save({ validateBeforeSave: false });
+});
+
 exports.destroy = (req, res) => {
   res.cookie('jwt', 'logout', {
     expires: new Date(Date.now() + 1 * 1000),
@@ -66,3 +79,27 @@ exports.destroy = (req, res) => {
     status: 'success',
   });
 };
+
+exports.resetPassword = catchAsync(async (req, res, next) => {
+  const hashedToken = crypto
+    .createHash('sha256')
+    .update(req.params.token)
+    .digest('hex');
+
+  const user = await User.findOne({
+    passwordResetToken: hashedToken,
+    passwordResetExpires: { $gt: Date.now() },
+  });
+
+  if (!user) {
+    return next(new AppError('Token is invalid or expired', 400));
+  }
+
+  user.password = req.body.password;
+  user.confirmPassword = req.body.confirmPassword;
+  user.passwordResetToken = undefined;
+  user.passwordResetExpires = undefined;
+  await user.save();
+
+  createSendToken(user, 200, req, res);
+});
