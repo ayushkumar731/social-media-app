@@ -1,6 +1,8 @@
 const express = require('express');
 const path = require('path');
 const app = express();
+const globalErrorHandler = require('./controllers/errorController');
+const AppError = require('./config/AppError');
 const cookieParser = require('cookie-parser');
 
 const session = require('express-session');
@@ -16,5 +18,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/', require('./routes'));
+
+app.use(globalErrorHandler);
 
 module.exports = app;
