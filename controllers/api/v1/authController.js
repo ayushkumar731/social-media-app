@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const catchAsync = require('../../../config/catchAsynch');
 const AppError = require('../../../config/AppError');
 const crypto = require('crypto');
+const nodemailer = require('../../../config/nodemailer');
 
 const signToken = (id) => {
   return jwt.sign(id, process.env.JWT_SECRET_KEY, {
@@ -66,8 +67,38 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   if (!user) {
     return next(new AppError('User not found', 404));
   }
-  const resetToken = user.changedPasswordResetToken();
+  const resetToken = await user.changedPasswordResetToken();
   await user.save({ validateBeforeSave: false });
+
+  const resetURL = `${req.protocol}://${req.get(
+    'host',
+  )}/api/v1/user/reset-password/${resetToken}`;
+
+  const message = `Your Reset Password Link ${resetURL}`;
+
+  try {
+    await nodemailer({
+      email: user.email,
+      subject: 'Reset Password (valid for 10 min)',
+      message,
+    });
+
+    res.status(200).json({
+      status: 'success',
+      message: 'Check Your Email',
+    });
+  } catch (err) {
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    await user.save({ validateBeforeSave: false });
+
+    return next(
+      new AppError(
+        'Something went wrong to send the mail, please try again later!',
+        500,
+      ),
+    );
+  }
 });
 
 exports.destroy = (req, res) => {
