@@ -39,8 +39,13 @@ const UserSchema = new Schema(
         message: 'password and confirm password are not same',
       },
     },
+    emailVerification: {
+      type: Boolean,
+      default: false,
+    },
     passwordResetToken: String,
     passwordResetExpires: Date,
+    emailVerificationToken: String,
   },
   {
     timestamps: true,
@@ -54,6 +59,17 @@ UserSchema.pre('save', async function (next) {
   this.confirmPassword = undefined;
   next();
 });
+
+UserSchema.methods.emailVerify = async function () {
+  const emailToken = crypto.randomBytes(32).toString('hex');
+
+  this.emailVerificationToken = crypto
+    .createHash('sha256')
+    .update(emailToken)
+    .digest('hex');
+
+  return emailToken;
+};
 
 UserSchema.methods.checkPassword = async function (formPass, userPass) {
   return await bcrypt.compare(formPass, userPass);

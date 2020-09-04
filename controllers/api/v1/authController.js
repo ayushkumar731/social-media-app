@@ -5,12 +5,14 @@ const AppError = require('../../../config/AppError');
 const crypto = require('crypto');
 const nodemailer = require('../../../config/nodemailer');
 
+// to generate token
 const signToken = (id) => {
   return jwt.sign(id, process.env.JWT_SECRET_KEY, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
 };
 
+//to send response
 const createSendToken = (user, statusCode, req, res) => {
   const token = signToken(user.toJSON());
 
@@ -30,6 +32,7 @@ const createSendToken = (user, statusCode, req, res) => {
   });
 };
 
+//to create a new user
 exports.create = catchAsync(async (req, res, next) => {
   const newUser = await User.create({
     email: req.body.email,
@@ -37,14 +40,65 @@ exports.create = catchAsync(async (req, res, next) => {
     password: req.body.password,
     confirmPassword: req.body.confirmPassword,
   });
-  res.status(201).json({
+
+  const verifyToken = await newUser.emailVerify();
+  await newUser.save({ validateBeforeSave: false });
+
+  const verifyURL = `${req.protocol}://${req.get(
+    'host',
+  )}/api/v1/user/email-verify/${verifyToken}`;
+
+  const message = `Your Email verification Link ${verifyURL}`;
+
+  try {
+    await nodemailer({
+      email: newUser.email,
+      subject: 'For verify Yor email',
+      message,
+    });
+
+    res.status(200).json({
+      status: 'success',
+      message: 'Check Your Email',
+    });
+  } catch (err) {
+    newUser.emailVerificationToken = undefined;
+    await newUser.save({ validateBeforeSave: false });
+
+    return next(
+      new AppError(
+        'Something went wrong to send the mail, please try again later!',
+        500,
+      ),
+    );
+  }
+});
+
+//for email verification
+exports.emailVerify = catchAsync(async (req, res, next) => {
+  const hashedToken = crypto
+    .createHash('sha256')
+    .update(req.params.token)
+    .digest('hex');
+
+  const user = await User.findOne({
+    emailVerificationToken: hashedToken,
+  });
+
+  if (!user) {
+    return next(new AppError('Token is invalid', 400));
+  }
+
+  user.emailVerification = 'true';
+  user.emailVerificationToken = undefined;
+  await user.save({ validateBeforeSave: false });
+  res.status(200).json({
     status: 'success',
-    data: {
-      newUser,
-    },
+    message: 'Your email verfication is successfull',
   });
 });
 
+// to login the user
 exports.createSession = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
 
@@ -53,12 +107,17 @@ exports.createSession = catchAsync(async (req, res, next) => {
   }
   const user = await User.findOne({ email }).select('+password');
 
+  if (user.emailVerification === false) {
+    return next(new AppError('verify your email', 401));
+  }
   if (!user || !(await user.checkPassword(password, user.password))) {
     return next(new AppError('Incorrect email/password', 401));
   }
+
   createSendToken(user, 200, req, res);
 });
 
+// to mail for forget password
 exports.forgotPassword = catchAsync(async (req, res, next) => {
   const { email } = req.body;
 
@@ -101,6 +160,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   }
 });
 
+//to logout the user
 exports.destroy = (req, res) => {
   res.cookie('jwt', 'logout', {
     expires: new Date(Date.now() + 1 * 1000),
@@ -111,6 +171,7 @@ exports.destroy = (req, res) => {
   });
 };
 
+//to reset password
 exports.resetPassword = catchAsync(async (req, res, next) => {
   const hashedToken = crypto
     .createHash('sha256')
