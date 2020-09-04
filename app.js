@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const app = express();
+const db = require('./config/mongoose');
 const globalErrorHandler = require('./controllers/errorController');
 const AppError = require('./config/AppError');
 const cookieParser = require('cookie-parser');
