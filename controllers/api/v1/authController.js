@@ -5,14 +5,14 @@ const AppError = require('../../../config/AppError');
 const crypto = require('crypto');
 const nodemailer = require('../../../config/nodemailer');
 
-// to generate token
+//***************GENERATE TOKEN********************//
 const signToken = (id) => {
   return jwt.sign(id, process.env.JWT_SECRET_KEY, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
 };
 
-//to send response
+//***********************SEND RESPONSE*****************************************//
 const createSendToken = (user, statusCode, req, res) => {
   const token = signToken(user.toJSON());
 
@@ -32,7 +32,7 @@ const createSendToken = (user, statusCode, req, res) => {
   });
 };
 
-//to create a new user
+//*******************CREATE NEW USER *************************//
 exports.create = catchAsync(async (req, res, next) => {
   const newUser = await User.create({
     email: req.body.email,
@@ -53,13 +53,13 @@ exports.create = catchAsync(async (req, res, next) => {
   try {
     await nodemailer({
       email: newUser.email,
-      subject: 'For verify Yor email',
+      subject: 'For verify Your email',
       message,
     });
 
     res.status(200).json({
       status: 'success',
-      message: 'Check Your Email',
+      message: 'Verify Your Email Address.Please check your mail address',
     });
   } catch (err) {
     newUser.emailVerificationToken = undefined;
@@ -74,7 +74,7 @@ exports.create = catchAsync(async (req, res, next) => {
   }
 });
 
-//for email verification
+//**********************EMAIL VERIFICATION*****************//
 exports.emailVerify = catchAsync(async (req, res, next) => {
   const hashedToken = crypto
     .createHash('sha256')
@@ -98,7 +98,7 @@ exports.emailVerify = catchAsync(async (req, res, next) => {
   });
 });
 
-// to login the user
+//**********************LOGIN SESSIONS**************************//
 exports.createSession = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
 
@@ -117,7 +117,7 @@ exports.createSession = catchAsync(async (req, res, next) => {
   createSendToken(user, 200, req, res);
 });
 
-// to mail for forget password
+//********************FORGOT PASSWORD*************************//
 exports.forgotPassword = catchAsync(async (req, res, next) => {
   const { email } = req.body;
 
@@ -165,7 +165,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   }
 });
 
-//to logout the user
+//*************LOGOUT THE USER**************//
 exports.destroy = (req, res) => {
   res.cookie('jwt', 'logout', {
     expires: new Date(Date.now() + 1 * 1000),
@@ -176,7 +176,7 @@ exports.destroy = (req, res) => {
   });
 };
 
-//to reset password
+//****************RESET PASSWORD****************************//
 exports.resetPassword = catchAsync(async (req, res, next) => {
   const hashedToken = crypto
     .createHash('sha256')
@@ -205,6 +205,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   createSendToken(user, 200, req, res);
 });
 
+//******************UPDATE PASSWORD****************************//
 exports.updatePassword = catchAsync(async (req, res, next) => {
   console.log(req.body);
   const user = await User.findById(req.user.id).select('+password');
