@@ -1,7 +1,50 @@
+const multer = require('multer');
+const sharp = require('sharp');
 const Post = require('../../../models/posts');
 const catchAsync = require('../../../config/catchAsynch');
 const AppError = require('../../../config/AppError');
 const catchAsynch = require('../../../config/catchAsynch');
+
+//***************MULTER*********************************//
+const multerStorage = multer.memoryStorage();
+
+const multerFilter = (req, file, cb) => {
+  console.log(file.mimetype);
+  if (file.mimetype.startsWith('image')) {
+    cb(null, true);
+  } else {
+    cb(new AppError('Not an image. Please upload Image!', 400), false);
+  }
+};
+
+const upload = multer({
+  storage: multerStorage,
+  fileFilter: multerFilter,
+});
+
+exports.uploadPostImages = upload.array('images', 5);
+
+//RESIZE IMAGES
+exports.resizePostImages = catchAsync(async (req, res, next) => {
+  if (!req.files) return next();
+
+  req.body.images = [];
+
+  await Promise.all(
+    req.files.map(async (file, i) => {
+      const filename = `post-${req.user.id}-${Date.now()}-${i + 1}.jpeg`;
+
+      await sharp(file.buffer)
+        .resize(2000, 1333)
+        .toFormat('jpeg')
+        .jpeg({ quality: 90 })
+        .toFile(`assets/img/posts/${filename}`);
+
+      req.body.images.push(filename);
+    }),
+  );
+  next();
+});
 
 //******************CREATE POST DATA*********************//
 exports.postCreate = catchAsync(async (req, res, next) => {

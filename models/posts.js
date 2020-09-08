@@ -10,9 +10,7 @@ const PostSchema = new Schema({
     type: String,
     required: [true, 'please provide content'],
   },
-  images: {
-    type: [String],
-  },
+  images: [String],
 });
 
 PostSchema.pre(/^find/, function (next) {

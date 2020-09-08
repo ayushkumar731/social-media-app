@@ -7,7 +7,11 @@ router.use(passport.authenticate('jwt', { session: false }));
 
 router
   .route('/')
-  .post(postController.postCreate)
+  .post(
+    postController.uploadPostImages,
+    postController.resizePostImages,
+    postController.postCreate,
+  )
   .get(postController.getAllPost);
 
 router
