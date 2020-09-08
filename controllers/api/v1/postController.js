@@ -1,12 +1,10 @@
 const multer = require('multer');
 const sharp = require('sharp');
-const fs = require('fs');
-const path = require('path');
 const Post = require('../../../models/posts');
 const catchAsync = require('../../../config/catchAsynch');
 const AppError = require('../../../config/AppError');
-const catchAsynch = require('../../../config/catchAsynch');
 const post = require('../../../models/posts');
+const handleFactory = require('./handleFactory');
 
 //***************MULTER*********************************//
 const multerStorage = multer.memoryStorage();
@@ -48,26 +46,11 @@ exports.resizePostImages = catchAsync(async (req, res, next) => {
   next();
 });
 
-//******************CREATE POST DATA*********************//
-exports.postCreate = catchAsync(async (req, res, next) => {
-  //CREATE POST
-  let post = await Post.create({
-    content: req.body.content,
-    user: req.user._id,
-    images: req.body.images,
-  });
-
-  //POPULATE USER
-  post = await post.populate('user', 'name -_id').execPopulate();
-
-  //SEND RESPONSE
-  res.status(201).json({
-    status: 'success',
-    data: {
-      post,
-    },
-  });
-});
+//********************SET USER ID ON POST****************//
+exports.setUserId = (req, res, next) => {
+  if (!req.body.user) req.body.user = req.user._id;
+  next();
+};
 
 //********************UPDATE POST************************//
 exports.updatePost = catchAsync(async (req, res, next) => {
@@ -104,69 +87,17 @@ exports.updatePost = catchAsync(async (req, res, next) => {
   });
 });
 
-//**********************DELETE POST************************//
-exports.deletePost = catchAsync(async (req, res, next) => {
-  // console.log(req.file, req.user.id);
-  // FIND POST
-  const postUser = await Post.findById(req.params.id);
-
-  //IF POST ARE NOT RELATED WITH THE ID
-  if (!postUser) {
-    return next(new AppError('No post found with that id', 404));
-  }
-
-  //IF POST ARE NOT RELATED WITH THE CURRENT USER THEN THROW AN ERROR
-  if (postUser.user.id != req.user.id) {
-    return next(
-      new AppError('You do have permission to perform this action', 404),
-    );
-  }
-
-  if (postUser.images) {
-    postUser.images.forEach((el) => {
-      fs.unlinkSync(path.join(__dirname, '../../../assets/img/posts', el));
-    });
-  }
-
-  //DELETE POST
-  const deletePost = await Post.findByIdAndDelete(req.params.id);
-
-  //IF POST ARE NOT RELATED WITH THE ID
-  if (!deletePost) {
-    return next(new AppError('No post found with that id', 404));
-  }
-
-  //SEND RESPONSE
-  res.status(204).json({
-    status: 'success',
-    data: null,
-  });
+//******************CREATE POST DATA*********************//
+exports.postCreate = handleFactory.createOne(Post, {
+  path: 'user',
+  select: 'name -_id',
 });
+
+//**********************DELETE POST************************//
+exports.deletePost = handleFactory.deleteOne(Post);
 
 //********************GET ALL POSTS BY USER ID******************//
-exports.getAllPostByUser = catchAsync(async (req, res, next) => {
-  //FIND POST
-  const posts = await Post.find({ user: req.params.userId });
-
-  //SEND RESPONSE
-  res.status(200).json({
-    status: 'success',
-    results: posts.length,
-    data: {
-      post,
-    },
-  });
-});
+exports.getAllPostByUser = handleFactory.getAllDocsByUser(Post);
 
 //********************GET ALL POSTS********************//
-exports.getAllPost = catchAsynch(async (req, res, next) => {
-  // FIND POST (LETEST TO OLDEST)
-  const posts = await Post.find().sort('-createdAt');
-
-  //SEND RESPONSE
-  res.status(200).json({
-    status: 'success',
-    results: posts.length,
-    data: posts,
-  });
-});
+exports.getAllPost = handleFactory.getAllOne(Post);

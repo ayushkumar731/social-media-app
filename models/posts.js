@@ -1,16 +1,30 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const PostSchema = new Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+const PostSchema = new Schema(
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
+    content: {
+      type: String,
+      required: [true, 'please provide content'],
+    },
+    images: [String],
   },
-  content: {
-    type: String,
-    required: [true, 'please provide content'],
+  {
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   },
-  images: [String],
+);
+
+//virtual populate
+PostSchema.virtual('comments', {
+  ref: 'Comment',
+  foreignField: 'post',
+  localField: '_id',
 });
 
 PostSchema.pre(/^find/, function (next) {

@@ -10,6 +10,7 @@ router
   .post(
     postController.uploadPostImages,
     postController.resizePostImages,
+    postController.setUserId,
     postController.postCreate,
   )
   .get(postController.getAllPost);
@@ -21,8 +22,7 @@ router
     postController.resizePostImages,
     postController.updatePost,
   )
-  .delete(postController.deletePost);
-
-router.get('/:userId', postController.getAllPostByUser);
+  .delete(postController.deletePost)
+  .get(postController.getAllPostByUser);
 
 module.exports = router;
