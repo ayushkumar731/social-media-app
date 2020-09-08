@@ -10,16 +10,17 @@ const PostSchema = new Schema({
     type: String,
     required: [true, 'please provide content'],
   },
-  photo: {
+  images: {
     type: [String],
   },
 });
 
-PostSchema.pre('/^find/', function (next) {
+PostSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'user',
-    select: 'name -__id',
+    select: 'name',
   });
+  next();
 });
 
 const post = mongoose.model('Post', PostSchema);

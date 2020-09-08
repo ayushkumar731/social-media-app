@@ -10,6 +10,9 @@ const session = require('express-session');
 const passport = require('passport');
 const jwtPassport = require('./config/passport-jwt-strategy');
 
+//to serve the static files
+app.use(express.static(path.join(__dirname, 'assets')));
+
 //body-parser to read the body with req.body
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
