@@ -16,7 +16,11 @@ router
 
 router
   .route('/:id')
-  .patch(postController.updatePost)
+  .patch(
+    postController.uploadPostImages,
+    postController.resizePostImages,
+    postController.updatePost,
+  )
   .delete(postController.deletePost);
 
 router.get('/:userId', postController.getAllPostByUser);

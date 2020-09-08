@@ -1,15 +1,17 @@
 const multer = require('multer');
 const sharp = require('sharp');
+const fs = require('fs');
+const path = require('path');
 const Post = require('../../../models/posts');
 const catchAsync = require('../../../config/catchAsynch');
 const AppError = require('../../../config/AppError');
 const catchAsynch = require('../../../config/catchAsynch');
+const post = require('../../../models/posts');
 
 //***************MULTER*********************************//
 const multerStorage = multer.memoryStorage();
 
 const multerFilter = (req, file, cb) => {
-  console.log(file.mimetype);
   if (file.mimetype.startsWith('image')) {
     cb(null, true);
   } else {
@@ -72,6 +74,11 @@ exports.updatePost = catchAsync(async (req, res, next) => {
   //FIND POST
   const postUser = await Post.findById(req.params.id);
 
+  //IF POST NOT FOUND WITH THAT ID
+  if (!postUser) {
+    return next(new AppError('No post found with this id', 404));
+  }
+
   //POST NOT RELATED WITH CURRENT USER THEN THROW AN ERROR
   if (postUser.user.id != req.user.id) {
     return next(
@@ -99,14 +106,26 @@ exports.updatePost = catchAsync(async (req, res, next) => {
 
 //**********************DELETE POST************************//
 exports.deletePost = catchAsync(async (req, res, next) => {
+  // console.log(req.file, req.user.id);
   // FIND POST
   const postUser = await Post.findById(req.params.id);
+
+  //IF POST ARE NOT RELATED WITH THE ID
+  if (!postUser) {
+    return next(new AppError('No post found with that id', 404));
+  }
 
   //IF POST ARE NOT RELATED WITH THE CURRENT USER THEN THROW AN ERROR
   if (postUser.user.id != req.user.id) {
     return next(
       new AppError('You do have permission to perform this action', 404),
     );
+  }
+
+  if (postUser.images) {
+    postUser.images.forEach((el) => {
+      fs.unlinkSync(path.join(__dirname, '../../../assets/img/posts', el));
+    });
   }
 
   //DELETE POST
