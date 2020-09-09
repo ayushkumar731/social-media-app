@@ -3,7 +3,6 @@ const sharp = require('sharp');
 const Post = require('../../../models/posts');
 const catchAsync = require('../../../config/catchAsynch');
 const AppError = require('../../../config/AppError');
-const post = require('../../../models/posts');
 const handleFactory = require('./handleFactory');
 
 //***************MULTER*********************************//
@@ -22,27 +21,21 @@ const upload = multer({
   fileFilter: multerFilter,
 });
 
-exports.uploadPostImages = upload.array('images', 5);
+exports.uploadPostImages = upload.single('photo');
 
 //RESIZE IMAGES
 exports.resizePostImages = catchAsync(async (req, res, next) => {
-  if (!req.files) return next();
+  if (!req.file) return next();
 
-  req.body.images = [];
+  req.file.filename = `post-${req.user.id}-${Date.now()}.jpeg`;
+  // console.log(req.file);
 
-  await Promise.all(
-    req.files.map(async (file, i) => {
-      const filename = `post-${req.user.id}-${Date.now()}-${i + 1}.jpeg`;
+  await sharp(req.file.buffer)
+    .resize(640, 320)
+    .toFormat('jpeg')
+    .jpeg({ quality: 90 })
+    .toFile(`assets/img/posts/${req.file.filename}`);
 
-      await sharp(file.buffer)
-        .resize(2000, 1333)
-        .toFormat('jpeg')
-        .jpeg({ quality: 90 })
-        .toFile(`assets/img/posts/${filename}`);
-
-      req.body.images.push(filename);
-    }),
-  );
   next();
 });
 
@@ -53,39 +46,7 @@ exports.setUserId = (req, res, next) => {
 };
 
 //********************UPDATE POST************************//
-exports.updatePost = catchAsync(async (req, res, next) => {
-  //FIND POST
-  const postUser = await Post.findById(req.params.id);
-
-  //IF POST NOT FOUND WITH THAT ID
-  if (!postUser) {
-    return next(new AppError('No post found with this id', 404));
-  }
-
-  //POST NOT RELATED WITH CURRENT USER THEN THROW AN ERROR
-  if (postUser.user.id != req.user.id) {
-    return next(
-      new AppError('You do not have permission to perform this action', 404),
-    );
-  }
-
-  // IF RELATED THEN UPDATE POST
-  const updatedPost = await Post.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-    runValidators: true,
-  });
-
-  //IF POST NOT FOUND WITH THAT ID
-  if (!updatedPost) {
-    return next(new AppError('No post found with this id', 404));
-  }
-
-  // SEND RESPONSE
-  res.status(200).json({
-    status: 'success',
-    data: updatedPost,
-  });
-});
+exports.updatePost = handleFactory.updateOne(Post);
 
 //******************CREATE POST DATA*********************//
 exports.postCreate = handleFactory.createOne(Post, {

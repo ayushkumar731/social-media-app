@@ -3,11 +3,22 @@ const AppError = require('../../../config/AppError');
 const fs = require('fs');
 const path = require('path');
 
+const filterObj = (obj, ...allowedFields) => {
+  const newObj = {};
+  Object.keys(obj).forEach((el) => {
+    if (allowedFields.includes(el)) newObj[el] = obj[el];
+  });
+  return newObj;
+};
+
 //******************CREATE DOC DATA*********************//
 exports.createOne = (Model, poptOptions) =>
   catchAsync(async (req, res, next) => {
+    const filterBody = filterObj(req.body, 'content', 'user');
+
+    if (req.file) filterBody.photo = req.file.filename;
     //CREATE
-    let doc = await Model.create(req.body);
+    let doc = await Model.create(filterBody);
 
     if (poptOptions) {
       doc = await doc.populate(poptOptions).execPopulate();
@@ -38,11 +49,24 @@ exports.updateOne = (Model) =>
       );
     }
 
+    if (checkUser.photo) {
+      fs.unlinkSync(
+        path.join(__dirname, '../../../assets/img/posts', checkUser.photo),
+      );
+    }
+
+    const filterBody = filterObj(req.body, 'content');
+    if (req.file) filterBody.photo = req.file.filename;
+
     // IF RELATED THEN UPDATE DOC
-    const updatedDoc = await Model.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
+    const updatedDoc = await Model.findByIdAndUpdate(
+      req.params.id,
+      filterBody,
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
 
     //IF DOC NOT FOUND WITH THAT ID
     if (!updatedDoc) {
@@ -75,10 +99,10 @@ exports.deleteOne = (Model) =>
       );
     }
 
-    if (checkUser.images) {
-      checkUser.images.forEach((el) => {
-        fs.unlinkSync(path.join(__dirname, '../../../assets/img/posts', el));
-      });
+    if (checkUser.photo) {
+      fs.unlinkSync(
+        path.join(__dirname, '../../../assets/img/posts', checkUser.photo),
+      );
     }
 
     //DELETE POST

@@ -4,14 +4,17 @@ const Schema = mongoose.Schema;
 const PostSchema = new Schema(
   {
     user: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Schema.ObjectId,
       ref: 'User',
+      required: [true, 'post must belongs to the user'],
     },
     content: {
       type: String,
       required: [true, 'please provide content'],
     },
-    images: [String],
+    photo: {
+      type: String,
+    },
   },
   {
     timestamps: true,
