@@ -6,7 +6,7 @@ const CommentSchema = new Schema(
   {
     content: {
       type: String,
-      required: [true, 'please provide content to post'],
+      required: [true, 'please provide comment to post'],
     },
     user: {
       type: mongoose.Schema.ObjectId,
@@ -26,7 +26,7 @@ const CommentSchema = new Schema(
   },
 );
 
-CommentSchema.pre('save', function (next) {
+CommentSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'user',
     select: 'name',

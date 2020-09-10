@@ -14,7 +14,7 @@ const filterObj = (obj, ...allowedFields) => {
 //******************CREATE DOC DATA*********************//
 exports.createOne = (Model, poptOptions) =>
   catchAsync(async (req, res, next) => {
-    const filterBody = filterObj(req.body, 'content', 'user');
+    const filterBody = filterObj(req.body, 'content', 'user', 'post');
 
     if (req.file) filterBody.photo = req.file.filename;
     //CREATE
@@ -81,9 +81,8 @@ exports.updateOne = (Model) =>
   });
 
 //**********************DELETE DOC************************/
-exports.deleteOne = (Model) =>
+exports.deleteOne = (Model, Opts) =>
   catchAsync(async (req, res, next) => {
-    // console.log(req.file, req.user.id);
     // FIND POST
     const checkUser = await Model.findById(req.params.id);
 
@@ -112,6 +111,9 @@ exports.deleteOne = (Model) =>
     if (!deleteDoc) {
       return next(new AppError('No doc found with that id', 404));
     }
+    if (Opts) {
+      const deleteDocs = await Opts.deleteMany({ post: req.params.id });
+    }
 
     //SEND RESPONSE
     res.status(204).json({
@@ -125,6 +127,20 @@ exports.getAllDocsByUser = (Model) =>
   catchAsync(async (req, res, next) => {
     //FIND DOC
     const doc = await Model.find({ user: req.params.id });
+
+    //SEND RESPONSE
+    res.status(200).json({
+      status: 'success',
+      results: doc.length,
+      data: doc,
+    });
+  });
+
+//***************GET ALL DOCS BY POST ID(COMMENT USE)******************//
+exports.getAllDocsByPost = (Model) =>
+  catchAsync(async (req, res, next) => {
+    //FIND DOC
+    const doc = await Model.find({ post: req.params.id });
 
     //SEND RESPONSE
     res.status(200).json({

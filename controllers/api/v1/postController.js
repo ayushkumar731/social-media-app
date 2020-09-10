@@ -1,6 +1,7 @@
 const multer = require('multer');
 const sharp = require('sharp');
 const Post = require('../../../models/posts');
+const Comment = require('../../../models/comments');
 const catchAsync = require('../../../config/catchAsynch');
 const AppError = require('../../../config/AppError');
 const handleFactory = require('./handleFactory');
@@ -55,7 +56,7 @@ exports.postCreate = handleFactory.createOne(Post, {
 });
 
 //**********************DELETE POST************************//
-exports.deletePost = handleFactory.deleteOne(Post);
+exports.deletePost = handleFactory.deleteOne(Post, Comment);
 
 //********************GET ALL POSTS BY USER ID******************//
 exports.getAllPostByUser = handleFactory.getAllDocsByUser(Post);

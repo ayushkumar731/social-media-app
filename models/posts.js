@@ -38,5 +38,13 @@ PostSchema.pre(/^find/, function (next) {
   next();
 });
 
+PostSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'comments',
+    select: 'content -post',
+  });
+  next();
+});
+
 const post = mongoose.model('Post', PostSchema);
 module.exports = post;
