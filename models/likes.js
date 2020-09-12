@@ -9,7 +9,7 @@ const LikeSchema = new Schema(
       ref: 'User',
       require: [true, 'Like must belongs to the user'],
     },
-    likes: {
+    likeable: {
       type: mongoose.Schema.ObjectId,
       refPath: 'onModel',
       required: [true, 'Likes must belong to the Post or Comment'],
