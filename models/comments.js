@@ -26,6 +26,13 @@ const CommentSchema = new Schema(
   },
 );
 
+//virtual populate for likes
+CommentSchema.virtual('likes', {
+  ref: 'Like',
+  foreignField: 'comment',
+  localField: '_id',
+});
+
 CommentSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'user',

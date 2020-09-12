@@ -23,9 +23,16 @@ const PostSchema = new Schema(
   },
 );
 
-//virtual populate
+//virtual populate for comments
 PostSchema.virtual('comments', {
   ref: 'Comment',
+  foreignField: 'post',
+  localField: '_id',
+});
+
+//virtual populate for likes
+PostSchema.virtual('likes', {
+  ref: 'Like',
   foreignField: 'post',
   localField: '_id',
 });
