@@ -15,6 +15,12 @@ const PostSchema = new Schema(
     photo: {
       type: String,
     },
+    likes: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Like',
+      },
+    ],
   },
   {
     timestamps: true,
@@ -26,13 +32,6 @@ const PostSchema = new Schema(
 //virtual populate for comments
 PostSchema.virtual('comments', {
   ref: 'Comment',
-  foreignField: 'post',
-  localField: '_id',
-});
-
-//virtual populate for likes
-PostSchema.virtual('likes', {
-  ref: 'Like',
   foreignField: 'post',
   localField: '_id',
 });

@@ -18,6 +18,12 @@ const CommentSchema = new Schema(
       ref: 'Post',
       required: [true, 'comments must belongs to the post'],
     },
+    likes: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Like',
+      },
+    ],
   },
   {
     timestamps: true,
@@ -25,13 +31,6 @@ const CommentSchema = new Schema(
     toObject: { virtuals: true },
   },
 );
-
-//virtual populate for likes
-CommentSchema.virtual('likes', {
-  ref: 'Like',
-  foreignField: 'comment',
-  localField: '_id',
-});
 
 CommentSchema.pre(/^find/, function (next) {
   this.populate({

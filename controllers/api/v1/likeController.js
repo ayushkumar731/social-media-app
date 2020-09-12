@@ -5,13 +5,13 @@ const Post = require('../../../models/posts');
 const Comment = require('../../../models/comments');
 
 exports.like = catchAsync(async (req, res, next) => {
-  let likable;
+  let likeable;
   let deleted = false;
 
-  if (req.query.type == 'post') {
-    likable = await Post.findById(req.query.id).populate('likes');
+  if (req.query.type == 'Post') {
+    likeable = await Post.findById(req.query.id).populate('likes');
   } else {
-    likable = await Comment.findById(req.query.id).populate('likes');
+    likeable = await Comment.findById(req.query.id).populate('likes');
   }
 
   //if like allready exist
@@ -22,8 +22,8 @@ exports.like = catchAsync(async (req, res, next) => {
   });
 
   if (existingLike) {
-    likable.likes.pull(existingLike._id);
-    likable.save();
+    likeable.likes.remove(existingLike._id);
+    likeable.save();
 
     existingLike.remove();
     deleted = true;
@@ -34,8 +34,8 @@ exports.like = catchAsync(async (req, res, next) => {
       onModel: req.query.type,
     });
 
-    likable.likes.push(newLike._id);
-    likable.save();
+    likeable.likes.push(newLike._id);
+    likeable.save();
   }
 
   return res.status(200).json({
