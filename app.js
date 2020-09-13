@@ -5,10 +5,15 @@ const db = require('./config/mongoose');
 const globalErrorHandler = require('./controllers/errorController');
 const AppError = require('./config/AppError');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 
 const session = require('express-session');
 const passport = require('passport');
 const jwtPassport = require('./config/passport-jwt-strategy');
+
+//cors apply
+app.use(cors());
+app.options('*', cors());
 
 //to serve the static files
 app.use(express.static(path.join(__dirname, 'assets')));
