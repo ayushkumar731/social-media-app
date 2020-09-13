@@ -9,7 +9,7 @@ const FriendSchema = new Schema(
       required: [true, 'from_user must belongs to current user'],
     },
     to_user: {
-      type: mongodb.Schema.ObjectId,
+      type: mongoose.Schema.ObjectId,
       ref: 'User',
     },
   },
