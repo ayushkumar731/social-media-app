@@ -107,11 +107,12 @@ exports.createSession = catchAsync(async (req, res, next) => {
   }
   const user = await User.findOne({ email }).select('+password');
 
-  if (user.emailVerification === false) {
-    return next(new AppError('verify your email', 401));
-  }
   if (!user || !(await user.checkPassword(password, user.password))) {
     return next(new AppError('Incorrect email/password', 401));
+  }
+
+  if (user.emailVerification === false) {
+    return next(new AppError('verify your email', 401));
   }
 
   createSendToken(user, 200, req, res);

@@ -49,10 +49,12 @@ exports.updateOne = (Model) =>
       );
     }
 
-    if (checkUser.photo) {
-      fs.unlinkSync(
-        path.join(__dirname, '../../../assets/img/posts', checkUser.photo),
-      );
+    if (req.file) {
+      if (checkUser.photo) {
+        fs.unlinkSync(
+          path.join(__dirname, '../../../assets/img/posts', checkUser.photo),
+        );
+      }
     }
 
     const filterBody = filterObj(req.body, 'content');
@@ -160,6 +162,17 @@ exports.getAllOne = (Model) =>
     res.status(200).json({
       status: 'success',
       results: doc.length,
+      data: doc,
+    });
+  });
+
+//**************GET ONE DOC BY ID**************//
+
+exports.getOne = (Model) =>
+  catchAsync(async (req, res, next) => {
+    const doc = await Model.findById(req.params.id);
+    res.status(200).json({
+      status: 'success',
       data: doc,
     });
   });

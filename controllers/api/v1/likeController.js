@@ -23,7 +23,7 @@ exports.like = catchAsync(async (req, res, next) => {
   });
 
   if (existingLike) {
-    likeable.likes.remove(existingLike._id);
+    likeable.likes.pull(existingLike._id);
     likeable.save();
 
     existingLike.remove();
