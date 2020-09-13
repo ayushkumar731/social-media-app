@@ -2,13 +2,42 @@ const Friend = require('../../../models/friendships');
 const User = require('../../../models/user');
 const catchAsync = require('../../../config/catchAsynch');
 const AppError = require('../../../config/AppError');
+const jwt = require('jsonwebtoken');
 
+//***************GENERATE TOKEN********************//
+const signToken = (id) => {
+  return jwt.sign(id, process.env.JWT_SECRET_KEY, {
+    expiresIn: process.env.JWT_EXPIRES_IN,
+  });
+};
+
+//***********************SEND RESPONSE*****************************************//
+const createSendToken = (user, data, statusCode, req, res) => {
+  const token = signToken(user.toJSON());
+
+  res.cookie('jwt', token, {
+    expires: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000,
+    ),
+    httpOnly: true,
+  });
+
+  res.status(statusCode).json({
+    status: 'success',
+    data: {
+      token,
+      data,
+    },
+  });
+};
+
+//****************ADD OR REMOVE FRIENDS*****************//
 exports.friend = catchAsync(async (req, res, next) => {
   let fromUser = await User.findById(req.user._id);
   let toUser = await User.findById(req.query.id);
   let deleted = false;
 
-  const existingFriend = await Friend.findOne({
+  let existingFriend = await Friend.findOne({
     from_user: req.user._id,
     to_user: req.query.id,
   });
@@ -16,23 +45,20 @@ exports.friend = catchAsync(async (req, res, next) => {
   if (existingFriend) {
     toUser.friends.pull(existingFriend._id);
     fromUser.friends.pull(existingFriend._id);
-    toUser.save();
-    fromUser.save();
+    toUser.save({ validateBeforeSave: false });
+    fromUser.save({ validateBeforeSave: false });
     existingFriend.remove();
     deleted = true;
   } else {
-    const newFriend = await Friend.create({
+    let newFriend = await Friend.create({
       from_user: req.user._id,
       to_user: req.query.id,
     });
 
     toUser.friends.push(newFriend);
     fromUser.friends.push(newFriend);
-    toUser.save();
-    fromUser.save();
+    toUser.save({ validateBeforeSave: false });
+    fromUser.save({ validateBeforeSave: false });
   }
-  return res.status(200).json({
-    status: 'success',
-    data: deleted,
-  });
+  createSendToken(req.user, deleted, 200, req, res);
 });
