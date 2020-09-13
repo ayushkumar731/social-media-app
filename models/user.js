@@ -14,14 +14,9 @@ const UserSchema = new Schema(
       type: String,
       required: [true, 'please provide name'],
     },
-    role: {
+    photo: {
       type: String,
-      enum: ['admin', 'user'],
-      default: 'user',
-    },
-    active: {
-      type: Boolean,
-      default: true,
+      default: 'default.jpg',
     },
     password: {
       type: String,
