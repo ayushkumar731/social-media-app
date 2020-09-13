@@ -43,6 +43,10 @@ const UserSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    friends: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Friend',
+    },
     passwordResetToken: String,
     passwordResetExpires: Date,
     emailVerificationToken: String,
