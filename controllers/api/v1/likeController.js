@@ -4,6 +4,7 @@ const Like = require('../../../models/likes');
 const Post = require('../../../models/posts');
 const Comment = require('../../../models/comments');
 
+//**********************LIKE CREATE AND DESTROY*******************//
 exports.like = catchAsync(async (req, res, next) => {
   let likeable;
   let deleted = false;
@@ -44,4 +45,42 @@ exports.like = catchAsync(async (req, res, next) => {
       deleted,
     },
   });
+});
+
+//***********IF ONLY POST DELETED THEN MIDDLEWARE RUN**************//
+exports.likeDestrobyPost = catchAsync(async (req, res, next) => {
+  const post = await Post.findById(req.params.id);
+
+  if (!post) {
+    return next(new AppError('Doc Post Found', 404));
+  }
+
+  if (post.user._id != req.user.id) {
+    return next(
+      new AppError('You do have permission to perform this action', 401),
+    );
+  }
+
+  await Like.deleteMany({ likeable: post, onModel: 'Post' });
+  const comments = await Comment.find({ post: req.params.id });
+
+  await Like.deleteMany({ likeable: comments, onModel: 'Comment' });
+
+  next();
+});
+
+//**********IF ONLY COMMENTS DELTED THEN RUN THIS MIDDLEWARE*****************//
+exports.likeDestroyByComment = catchAsync(async (req, res, next) => {
+  const comment = await Comment.findById(req.params.id);
+  if (!comment) {
+    return next(new AppError('Comment not found', 404));
+  }
+
+  if (comment.user._id != req.user.id) {
+    return next(
+      new AppError('You do have permission to perform this action', 401),
+    );
+  }
+  await Like.deleteMany({ likeable: comment, onModel: 'Comment' });
+  next();
 });

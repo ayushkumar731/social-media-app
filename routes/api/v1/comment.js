@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const commentController = require('../../../controllers/api/v1/commentController');
+const likeController = require('../../../controllers/api/v1/likeController');
 
 const passport = require('passport');
 
@@ -14,7 +15,7 @@ router
     commentController.commentCreate,
   )
   .patch(commentController.updateCommet)
-  .delete(commentController.deleteComment)
+  .delete(likeController.likeDestroyByComment, commentController.deleteComment)
   .get(commentController.getAllCommentsByUser);
 
 router.get('/', commentController.getAllComments);
