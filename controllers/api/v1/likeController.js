@@ -11,8 +11,14 @@ exports.like = catchAsync(async (req, res, next) => {
 
   if (req.query.type == 'Post') {
     likeable = await Post.findById(req.query.id).populate('likes');
+    if (!likeable) {
+      return next(new AppError('Query is not correct', 404));
+    }
   } else {
     likeable = await Comment.findById(req.query.id).populate('likes');
+    if (!likeable) {
+      return next(new AppError('Query is not correct', 404));
+    }
   }
 
   //if like allready exist
@@ -23,9 +29,6 @@ exports.like = catchAsync(async (req, res, next) => {
   });
 
   if (existingLike) {
-    likeable.likes.pull(existingLike._id);
-    likeable.save();
-
     existingLike.remove();
     deleted = true;
   } else {
@@ -34,9 +37,7 @@ exports.like = catchAsync(async (req, res, next) => {
       likeable: req.query.id,
       onModel: req.query.type,
     });
-
-    likeable.likes.push(newLike._id);
-    likeable.save();
+    doc = await newLike.populate('likes').execPopulate();
   }
 
   return res.status(200).json({

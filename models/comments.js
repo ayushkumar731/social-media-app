@@ -18,12 +18,6 @@ const CommentSchema = new Schema(
       ref: 'Post',
       required: [true, 'comments must belongs to the post'],
     },
-    likes: [
-      {
-        type: mongoose.Schema.ObjectId,
-        ref: 'Like',
-      },
-    ],
   },
   {
     timestamps: true,
@@ -32,10 +26,23 @@ const CommentSchema = new Schema(
   },
 );
 
+CommentSchema.virtual('likes', {
+  ref: 'Like',
+  foreignField: 'likeable',
+  localField: '_id',
+});
+
 CommentSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'user',
     select: 'name',
+  });
+  next();
+});
+
+CommentSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'likes',
   });
   next();
 });

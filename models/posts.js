@@ -15,12 +15,6 @@ const PostSchema = new Schema(
     photo: {
       type: String,
     },
-    likes: [
-      {
-        type: mongoose.Schema.ObjectId,
-        ref: 'Like',
-      },
-    ],
   },
   {
     timestamps: true,
@@ -36,6 +30,12 @@ PostSchema.virtual('comments', {
   localField: '_id',
 });
 
+PostSchema.virtual('likes', {
+  ref: 'Like',
+  foreignField: 'likeable',
+  localField: '_id',
+});
+
 PostSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'user',
@@ -48,6 +48,13 @@ PostSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'comments',
     select: 'content -post',
+  });
+  next();
+});
+
+PostSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'likes',
   });
   next();
 });
