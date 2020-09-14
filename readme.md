@@ -54,6 +54,58 @@
 
 ## Folder Structure
 
+```
+social-media-app
+├─ assets
+│  └─ img
+│     └─ users
+│        ├─ default.jpg
+│        ├─ user-5f5e2e186e3a162e18e494ab-1600008397368.jpeg
+│        └─ user-5f5e313733ef59373c2d04e3-1600008602037.jpeg
+├─ config
+│  ├─ AppError.js
+│  ├─ catchAsynch.js
+│  ├─ mongoose.js
+│  ├─ nodemailer.js
+│  └─ passport-jwt-strategy.js
+├─ controllers
+│  ├─ api
+│  │  └─ v1
+│  │     ├─ authController.js
+│  │     ├─ commentController.js
+│  │     ├─ friendController.js
+│  │     ├─ handleFactory.js
+│  │     ├─ likeController.js
+│  │     ├─ postController.js
+│  │     ├─ searchController.js
+│  │     └─ userController.js
+│  └─ errorController.js
+├─ models
+│  ├─ comments.js
+│  ├─ friendships.js
+│  ├─ likes.js
+│  ├─ posts.js
+│  └─ user.js
+├─ routes
+│  ├─ api
+│  │  ├─ v1
+│  │  │  ├─ comment.js
+│  │  │  ├─ friend.js
+│  │  │  ├─ index.js
+│  │  │  ├─ like.js
+│  │  │  ├─ post.js
+│  │  │  ├─ search.js
+│  │  │  └─ user.js
+│  │  └─ index.js
+│  └─ index.js
+├─ .gitignore
+├─ app.js
+├─ package-lock.json
+├─ package.json
+├─ readme.md
+└─ server.js
+```
+
 ## Quick Start
 
 ### Prerequisites
