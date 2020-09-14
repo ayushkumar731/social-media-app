@@ -28,7 +28,7 @@
 - User can get all comments by the userId as well as PostId.
 - User get All Comments.
 - Like feature for the "Posts" as well as "Comments".If allready liked then User can dislike also.
-- friendShip functionality where user can add other user as a friend and if allready friend then can remove also.
+- friendShip functionality where user can folloe other user as a friend and if allready follow friend then can unfollow also.
 - User can also search other user by letter or name(eg. if user type "a" or "A" then User gets all the Users whose name starts with "A" .If User type full name like "John" then User gets all other Users whose name will "John").
 
 ## Technology Used
