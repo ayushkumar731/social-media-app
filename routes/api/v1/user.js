@@ -9,18 +9,18 @@ const userController = require('../../../controllers/api/v1/userController');
 router.post('/create', authController.create);
 router.post('/create-session', authController.createSession);
 router.post('/forgot-password', authController.forgotPassword);
-router.post('/reset-password/:token', authController.resetPassword);
+router.patch('/reset-password/:token', authController.resetPassword);
 router.get('/email-verify/:token', authController.emailVerify);
-router.post(
+router.patch(
   '/update-password',
   passport.authenticate('jwt', { session: false }),
-  authController.updatePassword,
+  authController.updatePassword
 );
 
 router.get(
   '/logout',
   passport.authenticate('jwt', { session: false }),
-  authController.destroy,
+  authController.destroy
 );
 
 //***************USER ROUTES*************************//
@@ -33,7 +33,7 @@ router
   .patch(
     userController.uploadUserImage,
     userController.resizeUserImages,
-    userController.updateMe,
+    userController.updateMe
   );
 
 router.route('/profile/:id').get(userController.getUser);
