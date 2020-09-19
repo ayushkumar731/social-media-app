@@ -17,3 +17,9 @@ exports.login = catchAsync(async (req, res, next) => {
     title: 'Login',
   });
 });
+
+exports.forgot = catchAsync(async (req, res, next) => {
+  return res.render('forgot', {
+    title: 'Reset Password',
+  });
+});
