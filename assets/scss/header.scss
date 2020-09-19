@@ -1,19 +1,22 @@
 #header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  padding: 3px 2px;
-  border-bottom: 1px solid grey;
+  padding: 3px 10px;
+  border-bottom: 1px solid rgb(224, 220, 220);
   #logo {
+    margin-right: 10rem;
     a {
       text-decoration: none;
       color: black;
     }
   }
   #search {
+    margin-right: 10rem;
     input {
       padding: 2px 5px;
       font-size: 1.1rem;
+      width: 18rem;
     }
     input:focus {
       outline: none;
@@ -25,6 +28,7 @@
   #profile {
     height: 3rem;
     width: 3rem;
+    margin-left: 4rem;
     img {
       height: 100%;
       width: 100%;

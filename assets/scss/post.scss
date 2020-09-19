@@ -25,6 +25,12 @@
           border-radius: 50%;
         }
       }
+      #user-name {
+        p {
+          font-size: 1.2rem;
+          cursor: pointer;
+        }
+      }
     }
 
     #dlt {
@@ -63,6 +69,7 @@
         height: 1.5rem;
         margin-right: 1.5rem;
         background-color: transparent;
+        cursor: pointer;
         img {
           width: 100%;
           height: 100%;
@@ -73,6 +80,7 @@
         outline: none;
         width: 1.5rem;
         height: 1.5rem;
+        cursor: pointer;
         background-color: transparent;
         img {
           width: 100%;
