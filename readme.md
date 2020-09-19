@@ -166,8 +166,8 @@ social-media-app
 - POST -> **/api/v1/user/create-session** (to login the user).
 - POST -> **/api/v1/user/logout** (to logout the user).
 - POST -> **/api/v1/user/forgot-password** (to forget the password.User receive an email).
-- POST -> **localhost/api/v1/user/reset-password/tokenId** (to reset the password paste the token id instead of tokenId which received in the mail)
-- POST -> **/api/v1/user/update-password** (to update the password).
+- PATCH -> **localhost/api/v1/user/reset-password/tokenId** (to reset the password paste the token id instead of tokenId which received in the mail)
+- PATCH -> **/api/v1/user/update-password** (to update the password).
 - POST -> **/api/v1/post** (to create Post)
 - PATCH -> **/api/v1/post/id** (to update the post with the id.Please paste the id of Post which you want to update istead of **id**).
 - DELETE -> **/api/v1/post/id** (to delete the post with the **id**).
