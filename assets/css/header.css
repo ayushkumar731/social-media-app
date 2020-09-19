@@ -1,0 +1,23 @@
+#header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3px 2px;
+  border-bottom: 1px solid grey; }
+  #header #logo a {
+    text-decoration: none;
+    color: black; }
+  #header #search input {
+    padding: 2px 5px;
+    font-size: 1.1rem; }
+  #header #search input:focus {
+    outline: none; }
+  #header #search input::placeholder {
+    text-align: center; }
+  #header #profile {
+    height: 3rem;
+    width: 3rem; }
+    #header #profile img {
+      height: 100%;
+      width: 100%;
+      border-radius: 50%; }
