@@ -1,3 +1,12 @@
+.mg-forgot {
+  margin: 12rem auto 3rem; }
+
+.mg-login {
+  margin: 10rem auto 3rem; }
+
+.mg-signup {
+  margin: 3rem auto; }
+
 #container {
   max-width: 25rem;
   border: 1px solid grey;
@@ -5,8 +14,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  margin: 3rem auto; }
+  align-items: center; }
   #container #para {
     width: 13rem;
     text-align: center;
