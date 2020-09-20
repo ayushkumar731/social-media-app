@@ -1,5 +1,6 @@
 const User = require('../../../models/user');
 const jwt = require('jsonwebtoken');
+const { promisify } = require('util');
 const catchAsync = require('../../../config/catchAsynch');
 const AppError = require('../../../config/AppError');
 const crypto = require('crypto');
@@ -18,7 +19,7 @@ const createSendToken = (user, statusCode, req, res) => {
 
   res.cookie('jwt', token, {
     expires: new Date(
-      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000,
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
     httpOnly: true,
   });
@@ -45,7 +46,7 @@ exports.create = catchAsync(async (req, res, next) => {
   await newUser.save({ validateBeforeSave: false });
 
   const verifyURL = `${req.protocol}://${req.get(
-    'host',
+    'host'
   )}/api/v1/user/email-verify/${verifyToken}`;
 
   const message = `Your Email verification Link ${verifyURL}`;
@@ -68,8 +69,8 @@ exports.create = catchAsync(async (req, res, next) => {
     return next(
       new AppError(
         'Something went wrong to send the mail, please try again later!',
-        500,
-      ),
+        500
+      )
     );
   }
 });
@@ -136,7 +137,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   await user.save({ validateBeforeSave: false });
 
   const resetURL = `${req.protocol}://${req.get(
-    'host',
+    'host'
   )}/api/v1/user/reset-password/${resetToken}`;
 
   const message = `Your Reset Password Link ${resetURL}`;
@@ -160,8 +161,8 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     return next(
       new AppError(
         'Something went wrong to send the mail, please try again later!',
-        500,
-      ),
+        500
+      )
     );
   }
 });
@@ -213,7 +214,7 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 
   const pass = await user.checkPassword(
     req.body.currentPassword,
-    user.password,
+    user.password
   );
   console.log(pass);
   if (!pass) {
@@ -225,3 +226,29 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 
   createSendToken(user, 200, req, res);
 });
+
+//****************** Only for rendered pages, no errors!*********************/
+exports.isLoggedIn = async (req, res, next) => {
+  if (req.cookies.jwt) {
+    try {
+      // 1) verify token
+      const decoded = await promisify(jwt.verify)(
+        req.cookies.jwt,
+        process.env.JWT_SECRET_KEY
+      );
+
+      // 2) Check if user still exists
+      const currentUser = await User.findById(decoded._id);
+      if (!currentUser) {
+        return next();
+      }
+
+      // THERE IS A LOGGED IN USER
+      res.locals.user = currentUser;
+      return next();
+    } catch (err) {
+      return next();
+    }
+  }
+  next();
+};
