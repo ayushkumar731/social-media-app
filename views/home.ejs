@@ -1,3 +1,10 @@
-<!-- <%if(locals.user){%> <%- include('_header');%> <%}else{%> <%-
-include('sign-in'); %> <%}%> -->
-<%- include('_header');%> <%- include('_post');%>
+<%if(locals.user){%> 
+    
+    <%- include('_header');%>
+    
+    <%- include('_post');%>
+<%}else{%> 
+    
+    <%- include('sign-in'); %> 
+    
+<%}%>
