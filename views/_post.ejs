@@ -3,14 +3,14 @@
   <div id="user">
     <div id="user-info">
       <div id="user-photo">
-        <img src="img/users/default.jpg" />
+        <img src="/img/users/<%=post.user.photo%>" alt="user-photo" />
       </div>
       <div id="user-name">
-        <p>Ayush</p>
+        <p><%=post.user.name%></p>
       </div>
     </div>
     <div id="dlt">
-      <button id="dlt-btn">
+      <button id="dlt-btn" data-post-id="<%=post.id%>">
         <img
           src=" https://www.flaticon.com/svg/static/icons/svg/1828/1828843.svg"
         />
@@ -19,7 +19,7 @@
   </div>
   <div id="post">
     <div id="post-img">
-      <img src="/img/posts/post-5f5e31f45f36aa37507aac5d-1600583890545.jpeg" />
+      <img src="/img/posts/<%=post.photo%>" />
     </div>
     <div id="post-activity">
       <button id="like-unlike">

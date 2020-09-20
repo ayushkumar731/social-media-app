@@ -26,7 +26,7 @@ const login = async (email, password) => {
         location.assign('/');
       }, 1000);
     }
-  } catch {
+  } catch (err) {
     console.log('error', err.response.data.message);
   }
 };
