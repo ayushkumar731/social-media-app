@@ -9,20 +9,22 @@
         <p><%=post.user.name%></p>
       </div>
     </div>
-    <div id="dlt">
-      <button id="dlt-btn" data-post-id="<%=post.id%>">
-        <img
-          src=" https://www.flaticon.com/svg/static/icons/svg/1828/1828843.svg"
-        />
-      </button>
-    </div>
+    <%if(user.id==post.user.id){%>
+      <div id="dlt">
+        <button id="dlt-btn" data-dlt-id="<%=post.id%>">
+          <img
+            src=" https://www.flaticon.com/svg/static/icons/svg/1828/1828843.svg"
+          />
+        </button>
+      </div>
+    <%}%>
   </div>
   <div id="post">
     <div id="post-img">
       <img src="/img/posts/<%=post.photo%>" />
     </div>
     <div id="post-activity">
-      <button id="like-unlike">
+      <button id="like-unlike" data-like-id="<%=post.id%>">
         <img
           src="https://www.flaticon.com/svg/static/icons/svg/3507/3507627.svg"
         />
@@ -34,13 +36,13 @@
         />
       </button>
     </div>
-    <div id="likes">1 likes</div>
+    <div id="likes"><%=post.likes.length%> likes</div>
     <div id="post-content">
-      <p>asas</p>
+      <p><%=post.content %></p>
     </div>
   </div>
   <div id="comment-form">
     <input type="text" id="comment" placeholder="Add a comment..." />
-    <button id="comment-btn">Post</button>
+    <button id="comment-btn" data-comment-id="<%=post.id%>">Post</button>
   </div>
 </div>
