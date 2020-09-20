@@ -25,7 +25,7 @@ const handleTokenExpiredError = () =>
 
 const sendErrorDev = (err, req, res) => {
   //API
-  if (req.originalUrl.startsWith('/api')) {
+  if (req.originalUrl.includes('/api')) {
     return res.status(err.statusCode).json({
       status: err.status,
       error: err,
@@ -42,7 +42,7 @@ const sendErrorDev = (err, req, res) => {
 };
 
 const sendErrorProd = (err, req, res) => {
-  if (req.originalUrl.startsWith('/api')) {
+  if (req.originalUrl.includes('/api')) {
     //operational trusted error: send message to client
     if (err.isOperational) {
       return res.status(err.statusCode).json({

@@ -53,12 +53,12 @@ exports.likeDestrobyPost = catchAsync(async (req, res, next) => {
   const post = await Post.findById(req.params.id);
 
   if (!post) {
-    return next(new AppError('Doc Post Found', 404));
+    return next(new AppError('No Post Found', 404));
   }
 
   if (post.user._id != req.user.id) {
     return next(
-      new AppError('You do have permission to perform this action', 401),
+      new AppError('You do have permission to perform this action', 401)
     );
   }
 
@@ -79,7 +79,7 @@ exports.likeDestroyByComment = catchAsync(async (req, res, next) => {
 
   if (comment.user._id != req.user.id) {
     return next(
-      new AppError('You do have permission to perform this action', 401),
+      new AppError('You do have permission to perform this action', 401)
     );
   }
   await Like.deleteMany({ likeable: comment, onModel: 'Comment' });
