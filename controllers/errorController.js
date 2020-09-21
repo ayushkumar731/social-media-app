@@ -7,7 +7,7 @@ const handleCastErrorDB = (err) => {
 
 const handleMongoErrorDB = (err) => {
   const value = err.errmsg.match(/(["'])(.*?[^\\])\1/)[0];
-  message = `Duplicate field value : ${value}. please use another value`;
+  message = `User Allready Exist`;
   return new AppError(message, 400);
 };
 
@@ -79,7 +79,6 @@ const sendErrorProd = (err, req, res) => {
 module.exports = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
-  console.log(err);
 
   if (process.env.NODE_ENV == 'development') {
     sendErrorDev(err, req, res);

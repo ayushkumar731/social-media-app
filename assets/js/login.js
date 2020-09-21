@@ -29,6 +29,6 @@ const login = async (email, password) => {
       }, 1000);
     }
   } catch (err) {
-    console.log('error', err.response.data.message);
+    window.alert(err.response.data.message)
   }
 };
