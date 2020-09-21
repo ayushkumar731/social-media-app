@@ -10,6 +10,10 @@ if (signUpForm) {
     const confirmPassword = document.getElementById('confirmPassword').value;
     await signup(name, email, password, confirmPassword);
     document.getElementById('sign-up').textContent = 'Sign up';
+    document.getElementById('name').value='';
+    document.getElementById('email').value='';
+    document.getElementById('password').value='';
+    document.getElementById('confirmPassword').value='';
   });
 }
 

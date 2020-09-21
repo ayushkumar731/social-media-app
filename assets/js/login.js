@@ -8,6 +8,8 @@ if (logInForm) {
     const password = document.getElementById('password').value;
     await login(email, password);
     document.getElementById('log-in').textContent = 'Log In';
+    document.getElementById('email').value='';
+    document.getElementById('password').value='';
   });
 }
 
