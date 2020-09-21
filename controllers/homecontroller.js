@@ -40,8 +40,14 @@ exports.forgot = catchAsync(async (req, res, next) => {
     title: 'Reset Password',
   });
 });
-exports.emailVerification=catchAsync(async (req, res, next) => {
-  return res.render('emailVerify',{ 
-    title:'Email Verification'
-  })
-})
+exports.emailVerification = catchAsync(async (req, res, next) => {
+  return res.render('emailVerify', {
+    title: 'Email Verification',
+  });
+});
+
+exports.resetForgotPass = catchAsync(async (req, res, next) => {
+  return res.render('reset-password', {
+    title: 'Reset Password',
+  });
+});

@@ -4,6 +4,7 @@ const passport = require('passport');
 
 const authController = require('../../../controllers/api/v1/authController');
 const userController = require('../../../controllers/api/v1/userController');
+const homeController = require('../../../controllers/homecontroller');
 
 //**************AUTH ROUTES********************************//
 router.post('/create', authController.create);
@@ -22,6 +23,9 @@ router.get(
   passport.authenticate('jwt', { session: false }),
   authController.destroy,
 );
+
+//**************ONLY FOR RENDER THE WEB PAGE**********************//
+router.get('/reset-password/:token', homeController.resetForgotPass);
 
 //***************USER ROUTES*************************//
 router.use(passport.authenticate('jwt', { session: false }));
