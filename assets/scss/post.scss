@@ -13,9 +13,8 @@
     padding: 5px 10px;
     border-bottom: 1px solid rgb(241, 235, 235);
     #user-info {
-      width: 22%;
+      width: 30%;
       display: flex;
-      justify-content: space-between;
       align-items: center;
       #user-photo {
         width: 3rem;
@@ -26,9 +25,14 @@
         }
       }
       #user-name {
+        margin-left: 1rem;
         p {
           font-size: 1.2rem;
           cursor: pointer;
+          a {
+            text-decoration: none;
+            color: black;
+          }
         }
       }
     }

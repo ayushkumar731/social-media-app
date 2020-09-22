@@ -1,0 +1,21 @@
+<link rel="stylesheet" href="/css/profile.css" />
+<div id="profile-container">
+  <div id="profile-show">
+    <div id="user-photo">
+      <img src="/img/users/<%=user.photo%>" />
+    </div>
+    <div id="user-data">
+      <p id="user-name"><%=user.name%></p>
+      <p id="user-email"><%=user.email%></p>
+      <p id="post-length"><%=posts.length%> posts</p>
+    </div>
+  </div>
+  <hr />
+  <div id="user-post">
+    <%for(post of posts){%>
+    <div class="post-img">
+      <img src="/img/posts/<%=post.photo%>" />
+    </div>
+    <%}%>
+  </div>
+</div>

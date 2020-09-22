@@ -6,17 +6,17 @@
         <img src="/img/users/<%=post.user.photo%>" alt="user-photo" />
       </div>
       <div id="user-name">
-        <p><%=post.user.name%></p>
+        <p><a href="/<%=post.user.id%>"><%=post.user.name%></a></p>
       </div>
     </div>
     <%if(user.id==post.user.id){%>
-      <div id="dlt">
-        <button id="dlt-btn" data-dlt-id="<%=post.id%>">
-          <img
-            src=" https://www.flaticon.com/svg/static/icons/svg/1828/1828843.svg"
-          />
-        </button>
-      </div>
+    <div id="dlt">
+      <button id="dlt-btn" data-dlt-id="<%=post.id%>">
+        <img
+          src=" https://www.flaticon.com/svg/static/icons/svg/1828/1828843.svg"
+        />
+      </button>
+    </div>
     <%}%>
   </div>
   <div id="post">

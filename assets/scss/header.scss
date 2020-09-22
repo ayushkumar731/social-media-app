@@ -1,18 +1,21 @@
 #header {
   display: flex;
-  justify-content: center;
+  position: sticky;
+  background-color: #efeded;
+  top: 0;
+  justify-content: space-around;
   align-items: center;
   padding: 3px 10px;
   border-bottom: 1px solid rgb(224, 220, 220);
   #logo {
-    margin-right: 10rem;
+    // margin-right: 15rem;
     a {
       text-decoration: none;
       color: black;
     }
   }
   #search {
-    margin-right: 10rem;
+    // margin-right: 1rem;
     input {
       padding: 2px 5px;
       font-size: 1.1rem;
@@ -28,11 +31,45 @@
   #profile {
     height: 3rem;
     width: 3rem;
-    margin-left: 4rem;
+    cursor: pointer;
+    position: relative;
     img {
       height: 100%;
       width: 100%;
       border-radius: 50%;
+    }
+    .visible {
+      display: none;
+    }
+  }
+  .dropdown {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    top: 3.1rem;
+    right: -1.5rem;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgb(224, 222, 222);
+    padding: 10px 25px;
+    #profile-btn {
+      a {
+        text-decoration: none;
+        color: black;
+        font-size: 1.1rem;
+      }
+    }
+    #settings {
+      margin-top: 10px;
+      a {
+        text-decoration: none;
+        color: black;
+        font-size: 1.1rem;
+      }
+    }
+    #logout {
+      margin-top: 10px;
+      font-size: 1.1rem;
     }
   }
 }

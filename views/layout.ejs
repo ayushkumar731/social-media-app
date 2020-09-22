@@ -3,12 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/img/favicon.png" sizes="16x16" type="image/png" />
     <title><%=title%></title>
 
     <link rel="stylesheet" href="/css/layout.css" />
     <%- style%>
   </head>
   <body>
+    <%if(locals.user){%> <%- include('_header');%> <%}%>
     <main id="layout-main"><%-body%></main>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js"></script>

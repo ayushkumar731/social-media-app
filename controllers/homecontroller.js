@@ -1,5 +1,7 @@
 const catchAsync = require('../config/catchAsynch');
 const Post = require('../models/posts');
+const User = require('../models/user');
+const AppError = require('../config/AppError');
 
 module.exports.home = catchAsync(async (req, res, next) => {
   const posts = await Post.find({})
@@ -49,5 +51,19 @@ exports.emailVerification = catchAsync(async (req, res, next) => {
 exports.resetForgotPass = catchAsync(async (req, res, next) => {
   return res.render('reset-password', {
     title: 'Reset Password',
+  });
+});
+
+exports.profile = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.params.id);
+  if (!user) {
+    return next(new AppError('User Not Found'));
+  }
+  const post = await Post.find({ user: req.params.id });
+
+  return res.render('profile', {
+    title: ` profile | ${user.name}`,
+    posts: post,
+    user: user,
   });
 });
