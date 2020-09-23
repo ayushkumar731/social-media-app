@@ -26,3 +26,30 @@
       #searched-user .searched-user-container .user-name-email a {
         color: black;
         text-decoration: none; }
+
+#post-form {
+  width: 40rem;
+  margin: auto;
+  padding: 1rem;
+  border: 1px solid #e2e2e2; }
+  #post-form #form-post {
+    display: flex;
+    flex-direction: column; }
+    #post-form #form-post #post-content {
+      padding: 10px;
+      font-size: 1.2rem;
+      outline: none; }
+    #post-form #form-post #post-photo {
+      margin: 0.8rem 0;
+      outline: none;
+      width: 10rem;
+      overflow: hidden; }
+    #post-form #form-post #post-form-btn {
+      padding: 5px;
+      outline: none;
+      border: none;
+      font-size: 1.2rem;
+      color: white;
+      width: 10rem;
+      background-color: dodgerblue;
+      cursor: pointer; }
