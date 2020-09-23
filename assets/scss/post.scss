@@ -1,22 +1,22 @@
-#post-container {
+.post-container {
   width: 40rem;
   margin: 2rem auto;
   border: 1px solid rgb(223, 218, 218);
   display: flex;
   border-radius: 5px;
   flex-direction: column;
-  #user {
+  .user {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
     padding: 5px 10px;
     border-bottom: 1px solid rgb(241, 235, 235);
-    #user-info {
+    .user-info {
       width: 30%;
       display: flex;
       align-items: center;
-      #user-photo {
+      .user-photo {
         width: 3rem;
         img {
           width: 100%;
@@ -24,7 +24,7 @@
           border-radius: 50%;
         }
       }
-      #user-name {
+      .user-name {
         margin-left: 1rem;
         p {
           font-size: 1.2rem;
@@ -37,8 +37,8 @@
       }
     }
 
-    #dlt {
-      #dlt-btn {
+    .dlt {
+      .dlt-btn {
         border: none;
         outline: none;
         background-color: transparent;
@@ -52,9 +52,9 @@
       }
     }
   }
-  #post {
+  .post {
     width: 100%;
-    #post-img {
+    .post-img {
       width: 100%;
       padding: 0 60px;
       img {
@@ -62,11 +62,11 @@
         height: 100%;
       }
     }
-    #post-activity {
+    .post-activity {
       width: 100%;
       display: flex;
       padding: 8px 15px;
-      #like-unlike {
+      .like-unlike {
         border: none;
         outline: none;
         width: 1.5rem;
@@ -79,7 +79,7 @@
           height: 100%;
         }
       }
-      #comment {
+      .comment-pop-btn {
         border: none;
         outline: none;
         width: 1.5rem;
@@ -92,11 +92,11 @@
         }
       }
     }
-    #likes {
+    .likes {
       width: 100%;
       padding: 8px 15px;
     }
-    #post-content {
+    .post-content {
       width: 100%;
       padding: 8px 15px;
       p {
@@ -104,21 +104,21 @@
       }
     }
   }
-  #comment-form {
+  .comment-form form {
     width: 100%;
     border-top: 1px solid rgb(241, 235, 235);
     display: flex;
     align-items: center;
     padding: 5px;
     justify-content: space-between;
-    #comment {
+    .comment {
       width: 90%;
       border: none;
       outline: none;
       padding: 3px;
       font-size: 1.2rem;
     }
-    #comment-btn {
+    .comment-btn {
       width: 10%;
       background-color: dodgerblue;
       padding: 5px;

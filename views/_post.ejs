@@ -1,16 +1,16 @@
-<div id="post-container">
-  <div id="user">
-    <div id="user-info">
-      <div id="user-photo">
+<div class="post-container">
+  <div class="user">
+    <div class="user-info">
+      <div class="user-photo">
         <img src="/img/users/<%=post.user.photo%>" alt="user-photo" />
       </div>
-      <div id="user-name">
+      <div class="user-name">
         <p><a href="/<%=post.user.id%>"><%=post.user.name%></a></p>
       </div>
     </div>
     <%if(user.id==post.user.id){%>
-    <div id="dlt">
-      <button id="dlt-btn" data-dlt-id="<%=post.id%>">
+    <div class="dlt">
+      <button class="dlt-btn" data-dlt-id="<%=post.id%>">
         <img
           src=" https://www.flaticon.com/svg/static/icons/svg/1828/1828843.svg"
         />
@@ -18,30 +18,32 @@
     </div>
     <%}%>
   </div>
-  <div id="post">
-    <div id="post-img">
+  <div class="post">
+    <div class="post-img">
       <img src="/img/posts/<%=post.photo%>" />
     </div>
-    <div id="post-activity">
-      <button id="like-unlike" data-like-id="<%=post.id%>">
+    <div class="post-activity">
+      <button class="like-unlike" data-like-id="<%=post.id%>">
         <img
           src="https://www.flaticon.com/svg/static/icons/svg/3507/3507627.svg"
         />
       </button>
-      <button id="comment">
+      <button class="comment-pop-btn">
         <img
           src=" https://www.flaticon.com/svg/static/icons/svg/2462/2462719.svg"
           alt="comment-icon"
         />
       </button>
     </div>
-    <div id="likes"><%=post.likes.length%> likes</div>
-    <div id="post-content">
+    <div class="likes"><%=post.likes.length%> likes</div>
+    <div class="post-content">
       <p><%=post.content %></p>
     </div>
   </div>
-  <div id="comment-form">
-    <input type="text" id="comment" placeholder="Add a comment..." />
-    <button id="comment-btn" data-comment-id="<%=post.id%>">Post</button>
+  <div class="comment-form">
+    <form>
+      <input type="text" class="comment" placeholder="Add a comment..." />
+      <button class="comment-btn" data-comment-id="<%=post.id%>">Post</button>
+    </form>
   </div>
 </div>

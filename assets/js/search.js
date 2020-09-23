@@ -22,8 +22,7 @@ if (search) {
                 <div class="user-email">${user.email}</div>
              </div>
           </div>`;
-          console.log(searchUser);
-          searchedContainer.innerHTML = searchUser;
+          searchedContainer.innerHTML += searchUser;
         }
       }
     } catch (err) {
