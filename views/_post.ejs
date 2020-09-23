@@ -1,5 +1,5 @@
-<div class="post-container">
-  <div class="user">
+<div class="post-container" id="post-<%=post.id%>">
+  <div class="user" id="add">
     <div class="user-info">
       <div class="user-photo">
         <img src="/img/users/<%=post.user.photo%>" alt="user-photo" />
@@ -13,6 +13,7 @@
       <button class="dlt-btn" data-dlt-id="<%=post.id%>">
         <img
           src=" https://www.flaticon.com/svg/static/icons/svg/1828/1828843.svg"
+          data-dlt-id="<%=post.id%>"
         />
       </button>
     </div>

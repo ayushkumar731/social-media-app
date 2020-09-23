@@ -45,14 +45,14 @@ exports.updateOne = (Model) =>
     //DOC NOT RELATED WITH CURRENT USER THEN THROW AN ERROR
     if (checkUser.user.id != req.user.id) {
       return next(
-        new AppError('You do not have permission to perform this action', 404),
+        new AppError('You do not have permission to perform this action', 404)
       );
     }
 
     if (req.file) {
       if (checkUser.photo) {
         fs.unlinkSync(
-          path.join(__dirname, '../../../assets/img/posts', checkUser.photo),
+          path.join(__dirname, '../../../assets/img/posts', checkUser.photo)
         );
       }
     }
@@ -67,7 +67,7 @@ exports.updateOne = (Model) =>
       {
         new: true,
         runValidators: true,
-      },
+      }
     );
 
     //IF DOC NOT FOUND WITH THAT ID
@@ -96,13 +96,13 @@ exports.deleteOne = (Model, Opts) =>
     //IF POST ARE NOT RELATED WITH THE CURRENT USER THEN THROW AN ERROR
     if (checkUser.user.id != req.user.id) {
       return next(
-        new AppError('You do have permission to perform this action', 404),
+        new AppError('You do have permission to perform this action', 404)
       );
     }
 
     if (checkUser.photo) {
       fs.unlinkSync(
-        path.join(__dirname, '../../../assets/img/posts', checkUser.photo),
+        path.join(__dirname, '../../../assets/img/posts', checkUser.photo)
       );
     }
 
@@ -118,9 +118,11 @@ exports.deleteOne = (Model, Opts) =>
     }
 
     //SEND RESPONSE
-    res.status(204).json({
+    res.status(200).json({
       status: 'success',
-      data: null,
+      data: {
+        postId: req.params.id,
+      },
     });
   });
 
