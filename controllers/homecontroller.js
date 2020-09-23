@@ -26,29 +26,44 @@ module.exports.home = catchAsync(async (req, res, next) => {
 });
 
 exports.signup = catchAsync(async (req, res, next) => {
+  if (req.cookies.jwt) {
+    return res.redirect('back');
+  }
   return res.render('sign-up', {
     title: 'Sign up',
   });
 });
 
 exports.login = catchAsync(async (req, res, next) => {
+  if (req.cookies.jwt) {
+    return res.redirect('back');
+  }
   return res.render('sign-in', {
     title: 'Login',
   });
 });
 
 exports.forgot = catchAsync(async (req, res, next) => {
+  if (req.cookies.jwt) {
+    return res.redirect('back');
+  }
   return res.render('forgot', {
     title: 'Reset Password',
   });
 });
 exports.emailVerification = catchAsync(async (req, res, next) => {
+  if (req.cookies.jwt) {
+    return res.redirect('back');
+  }
   return res.render('emailVerify', {
     title: 'Email Verification',
   });
 });
 
 exports.resetForgotPass = catchAsync(async (req, res, next) => {
+  if (req.cookies.jwt) {
+    return res.redirect('back');
+  }
   return res.render('reset-password', {
     title: 'Reset Password',
   });
