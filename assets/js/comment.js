@@ -25,6 +25,7 @@ const comment = async (content, commentId) => {
         content,
       },
     });
+    console.log(res);
     let newComment = newCommentDom(res.data.data);
     $(`#comment-container-${commentId}`).prepend(newComment);
   } catch (err) {
@@ -33,9 +34,19 @@ const comment = async (content, commentId) => {
 };
 
 let newCommentDom = function (comments) {
-  return $(`<div>
-      <p class="name">${comments.user.name}</p>
-      <p>${comments.content}</p>
+  return $(`   <div id="comment-${comments.id}">
+    <div class="name">
+      <a href="/${comments.user._id}">${comments.user.name}</a>
+      
+      <button class="dlt-btn">
+        <img
+          src=" https://www.flaticon.com/svg/static/icons/svg/1828/1828843.svg"
+          data-dlt-comment-id="${comments.id}"
+        />
+      </button>
+    
+    </div>
+    <p>${comments.content}</p>
   </div>
   <hr />`);
 };

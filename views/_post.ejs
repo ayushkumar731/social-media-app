@@ -58,8 +58,18 @@
   </div>
   <div class="comments-container" id="comment-container-<%=post.id%>">
     <%for(comments of post.comments){%>
-    <div>
-      <p class="name"><%=comments.user.name%></p>
+    <div id="comment-<%=comments.id%>">
+      <div class="name">
+        <a href="/<%=comments.user.id%>"><%=comments.user.name%></a>
+        <%if(user.id==comments.user.id){%>
+        <button class="dlt-btn">
+          <img
+            src=" https://www.flaticon.com/svg/static/icons/svg/1828/1828843.svg"
+            data-dlt-comment-id="<%=comments.id%>"
+          />
+        </button>
+        <%}%>
+      </div>
       <p><%=comments.content%></p>
     </div>
     <hr />

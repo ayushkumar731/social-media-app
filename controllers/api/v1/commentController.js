@@ -24,7 +24,7 @@ exports.setUserPostId = (req, res, next) => {
 //******************CREATE COMMENT DATA*********************//
 exports.commentCreate = handleFactory.createOne(Comment, {
   path: 'user',
-  select: 'name -_id',
+  select: 'name',
 });
 
 //********************UPDATE COMMENT************************//

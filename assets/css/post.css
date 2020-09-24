@@ -34,8 +34,7 @@
           font-size: 1.2rem;
           cursor: pointer; }
           .post-container .user .user-info .user-name p a {
-            text-decoration: none;
-            color: black; }
+            text-decoration: none; }
     .post-container .user .dlt .dlt-btn {
       border: none;
       outline: none;
@@ -118,10 +117,21 @@
   .comments-container div {
     margin: 10px 0; }
     .comments-container div .name {
-      font-size: 1.1rem;
-      font-weight: bold; }
+      display: flex;
+      justify-content: space-between;
+      align-items: center; }
+      .comments-container div .name a {
+        font-size: 1.3rem;
+        font-weight: bold;
+        text-decoration: none; }
+      .comments-container div .name .dlt-btn {
+        border: none;
+        outline: none;
+        width: 1rem; }
+        .comments-container div .name .dlt-btn img {
+          width: 100%; }
     .comments-container div p {
-      margin-bottom: 5px; }
+      margin-top: 5px; }
 
 .comments-container::-webkit-scrollbar {
   display: none; }

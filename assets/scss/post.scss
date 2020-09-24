@@ -39,7 +39,6 @@
           cursor: pointer;
           a {
             text-decoration: none;
-            color: black;
           }
         }
       }
@@ -147,11 +146,27 @@
   div {
     margin: 10px 0;
     .name {
-      font-size: 1.1rem;
-      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      a {
+        font-size: 1.3rem;
+        font-weight: bold;
+        text-decoration: none;
+      }
+      .dlt-btn {
+        border: none;
+        outline: none;
+        width: 1rem;
+        img {
+          width: 100%;
+        }
+      }
     }
+
     p {
-      margin-bottom: 5px;
+      margin-top: 5px;
     }
   }
 }
