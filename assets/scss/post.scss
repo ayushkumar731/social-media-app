@@ -1,6 +1,14 @@
+.post-comment-conatiner {
+  display: flex;
+  flex-direction: row;
+  width: 60rem;
+
+  margin: 3rem auto;
+  border: 1px solid rgb(223, 218, 218);
+}
+
 .post-container {
   width: 40rem;
-  margin: 3rem auto;
   border: 1px solid rgb(223, 218, 218);
   display: flex;
   border-radius: 5px;
@@ -129,4 +137,25 @@
       cursor: pointer;
     }
   }
+}
+
+.comments-container {
+  padding: 5px;
+  width: 20rem;
+  height: 30rem;
+  overflow-y: scroll;
+  div {
+    margin: 10px 0;
+    .name {
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+    p {
+      margin-bottom: 5px;
+    }
+  }
+}
+
+.comments-container::-webkit-scrollbar {
+  display: none;
 }

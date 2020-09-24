@@ -16,7 +16,6 @@ module.exports.home = catchAsync(async (req, res, next) => {
         path: 'likes',
       },
     })
-    .populate('comments')
     .populate('likes');
 
   return res.render('home', {

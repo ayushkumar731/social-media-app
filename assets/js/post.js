@@ -34,7 +34,8 @@ const post = async (data) => {
 };
 
 let newPostDom = function (post) {
-  return $(`<div class="post-container" id="post-${post.id}">
+  return $(`<div class="post-comment-conatiner" id="post-comment-${post.id}">
+  <div class="post-container" id="post-${post.id}">
     <div class="user">
       <div class="user-info">
         <div class="user-photo">
@@ -74,19 +75,25 @@ let newPostDom = function (post) {
         <p>${post.content}</p>
       </div>
     </div>
-    <div class="comment-form">
-      <form>
-        <input type="text" class="comment" placeholder="Add a comment..." />
-        <button class="comment-btn" data-comment-id="${post.id}">Post</button>
+    <div  class="comment-form" >
+      <form class="form-comment" data-comment-id="${post.id}">
+        <input  type="text"
+        class="comment"
+        placeholder="Add a comment..."
+        id="comment-${post.id}"
+        name="content"
+        required />
+        <button class="comment-btn"  id="comment-btn-${post.id}">Post</button>
       </form>
     </div>
+  </div>
+  <div class="comment-container" id="comment-container${post.id}"></div>
   </div>
   `);
 };
 
 //this works when no task added
 postDom.forEach((el) => {
-  console.log(el);
   el.addEventListener('click', async (e) => {
     const { dltId } = e.target.dataset;
     if (dltId) {
@@ -97,7 +104,7 @@ postDom.forEach((el) => {
         });
         console.log(res);
         if (res.data.status === 'success') {
-          $(`#post-${res.data.data.postId}`).remove();
+          $(`#post-comment-${res.data.data.postId}`).remove();
         }
       } catch (err) {
         alert(err.response.data.message);
@@ -118,7 +125,7 @@ let deletePost = function (deleteLink) {
         });
         console.log(res);
         if (res.data.status === 'success') {
-          $(`#post-${res.data.data.postId}`).remove();
+          $(`#post-comment-${res.data.data.postId}`).remove();
         }
       } catch (err) {
         alert(err.response.data.message);
