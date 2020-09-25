@@ -81,3 +81,9 @@ exports.profile = catchAsync(async (req, res, next) => {
     user: user,
   });
 });
+
+exports.profileSettings = catchAsync(async (req, res, next) => {
+  return res.render('setting', {
+    title: 'Settings',
+  });
+});
