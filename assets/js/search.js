@@ -26,7 +26,7 @@ if (search) {
         }
       }
     } catch (err) {
-      console.log('try search again');
+      alert('try search again');
     }
   });
 }

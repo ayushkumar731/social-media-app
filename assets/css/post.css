@@ -131,7 +131,7 @@
         .comments-container div .name .dlt-btn img {
           width: 100%; }
     .comments-container div p {
-      margin-top: 5px; }
+      margin: 5px 0; }
 
 .comments-container::-webkit-scrollbar {
   display: none; }

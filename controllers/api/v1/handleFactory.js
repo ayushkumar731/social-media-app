@@ -121,7 +121,7 @@ exports.deleteOne = (Model, Opts) =>
     res.status(200).json({
       status: 'success',
       data: {
-        postId: req.params.id,
+        id: req.params.id,
       },
     });
   });

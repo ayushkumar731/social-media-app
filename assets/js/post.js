@@ -165,6 +165,8 @@ let deletePost = function (deleteLink) {
       let newPost = newPostDom(res.data.data);
       $('#home-post-content').prepend(newPost);
       deletePost($(' .delete-post-button', newPost));
+
+      new PostComments(res.data.data.id);
     } catch (err) {
       alert(err.response.data.message);
     }
@@ -173,7 +175,7 @@ let deletePost = function (deleteLink) {
   let newPostDom = function (post) {
     return $(`<div class="post-comment-conatiner" id="post-comment-${post.id}">
     <div class="post-container" id="post-${post.id}">
-      <div class="user">
+      <div class="user" id="add">
         <div class="user-info">
           <div class="user-photo">
             <img src="/img/users/${post.user.photo}" alt="user-photo" />
@@ -213,7 +215,7 @@ let deletePost = function (deleteLink) {
         </div>
       </div>
       <div  class="comment-form" >
-        <form class="form-comment" data-comment-id="${post.id}">
+        <form class="form-comment" data-comment-id="${post.id}" id="post-${post.id}-comment-form">
           <input  type="text"
           class="comment"
           placeholder="Add a comment..."
@@ -224,7 +226,7 @@ let deletePost = function (deleteLink) {
         </form>
       </div>
     </div>
-    <div class="comment-container" id="comment-container${post.id}"></div>
+    <div class="comments-container" id="comment-container-${post.id}"></div>
     </div>
     `);
   };
@@ -238,10 +240,10 @@ let deletePost = function (deleteLink) {
         try {
           const res = await axios({
             method: 'DELETE',
-            url: `api/v1/post/${dltId}`,
+            url: `/api/v1/post/${dltId}`,
           });
           if (res.data.status === 'success') {
-            $(`#post-comment-${res.data.data.postId}`).remove();
+            $(`#post-comment-${res.data.data.id}`).remove();
           }
         } catch (err) {
           alert(err.response.data.message);
@@ -258,8 +260,7 @@ let deletePost = function (deleteLink) {
 
       // get the post's id by splitting the id attribute
       let postId = self.prop('id').split('-')[2];
-      // console.log(postId);
-      // new PostComments(postId);
+      new PostComments(postId);
     });
   };
 

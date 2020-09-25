@@ -44,7 +44,11 @@
       </div>
     </div>
     <div class="comment-form">
-      <form class="form-comment" data-comment-id="<%=post.id%>">
+      <form
+        class="form-comment"
+        data-comment-id="<%=post.id%>"
+        id="post-<%=post.id%>-comment-form"
+      >
         <input
           type="text"
           class="comment"
@@ -62,18 +66,19 @@
     <div id="comment-<%=comments.id%>">
       <div class="name">
         <a href="/<%=comments.user.id%>"><%=comments.user.name%></a>
-        <%if(user.id==comments.user.id){%>
+        <%if(user.id==comments.user.id ||user.id==post.user.id){%>
         <button class="dlt-btn">
           <img
             src=" https://www.flaticon.com/svg/static/icons/svg/1828/1828843.svg"
             data-dlt-comment-id="<%=comments.id%>"
+            class="delete-comment-button"
           />
         </button>
         <%}%>
       </div>
       <p><%=comments.content%></p>
+      <hr />
     </div>
-    <hr />
     <%}%>
   </div>
 </div>
