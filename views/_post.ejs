@@ -26,9 +26,14 @@
         <img src="/img/posts/<%=post.photo%>" />
       </div>
       <div class="post-activity">
-        <button class="like-unlike" data-like-id="<%=post.id%>">
+        <button class="like-unlike">
           <img
             src="https://www.flaticon.com/svg/static/icons/svg/3507/3507627.svg"
+            data-like-id="<%=post.id%>"
+            data-like-model="Post"
+            class="toggle-like-button"
+            data-likes="<%=post.likes.length%>"
+            alt="like-icon"
           />
         </button>
         <button class="comment-pop-btn">
@@ -38,7 +43,9 @@
           />
         </button>
       </div>
-      <div class="likes"><%=post.likes.length%> likes</div>
+      <div class="likes" id="Post-like-<%=post.id%>">
+        <%=post.likes.length%> likes
+      </div>
       <div class="post-content">
         <p><%=post.content %></p>
       </div>
@@ -77,6 +84,21 @@
         <%}%>
       </div>
       <p><%=comments.content%></p>
+      <div class="comment-activity">
+        <div class="likes" id="Comment-like-<%=comments.id%>">
+          <%=comments.likes.length%> likes
+        </div>
+        <button class="like-unlike">
+          <img
+            src="https://www.flaticon.com/svg/static/icons/svg/3507/3507627.svg"
+            data-like-id="<%=comments.id%>"
+            data-like-model="Comment"
+            class="toggle-like-button"
+            data-likes="<%=comments.likes.length%>"
+            alt="like-icon"
+          />
+        </button>
+      </div>
       <hr />
     </div>
     <%}%>

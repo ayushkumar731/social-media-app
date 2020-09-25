@@ -9,7 +9,7 @@
   border-bottom: 1px solid #e0dcdc; }
   #header #logo a {
     text-decoration: none;
-    color: black; }
+    color: #e76565; }
   #header #search input {
     padding: 2px 5px;
     font-size: 1.1rem;
@@ -41,14 +41,15 @@
     padding: 10px 25px; }
     #header .dropdown #profile-btn a {
       text-decoration: none;
-      color: black;
+      color: blue;
       font-size: 1.1rem; }
     #header .dropdown #settings {
       margin-top: 10px; }
       #header .dropdown #settings a {
         text-decoration: none;
-        color: black;
+        color: blue;
         font-size: 1.1rem; }
     #header .dropdown #logout {
       margin-top: 10px;
-      font-size: 1.1rem; }
+      font-size: 1.1rem;
+      color: red; }

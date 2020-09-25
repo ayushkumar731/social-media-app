@@ -26,8 +26,11 @@
       display: flex;
       flex-direction: column;
       a {
-        color: black;
+        color: blue;
         text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
       }
     }
   }

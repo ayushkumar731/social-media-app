@@ -11,7 +11,7 @@
     // margin-right: 15rem;
     a {
       text-decoration: none;
-      color: black;
+      color: rgb(231, 101, 101);
     }
   }
   #search {
@@ -55,7 +55,7 @@
     #profile-btn {
       a {
         text-decoration: none;
-        color: black;
+        color: blue;
         font-size: 1.1rem;
       }
     }
@@ -63,13 +63,14 @@
       margin-top: 10px;
       a {
         text-decoration: none;
-        color: black;
+        color: blue;
         font-size: 1.1rem;
       }
     }
     #logout {
       margin-top: 10px;
       font-size: 1.1rem;
+      color: red;
     }
   }
 }

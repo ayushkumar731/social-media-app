@@ -34,7 +34,10 @@
           font-size: 1.2rem;
           cursor: pointer; }
           .post-container .user .user-info .user-name p a {
-            text-decoration: none; }
+            text-decoration: none;
+            color: blue; }
+          .post-container .user .user-info .user-name p a:hover {
+            text-decoration: underline; }
     .post-container .user .dlt .dlt-btn {
       border: none;
       outline: none;
@@ -123,15 +126,31 @@
       .comments-container div .name a {
         font-size: 1.3rem;
         font-weight: bold;
-        text-decoration: none; }
+        text-decoration: none;
+        color: blue; }
+      .comments-container div .name a:hover {
+        text-decoration: underline; }
       .comments-container div .name .dlt-btn {
         border: none;
         outline: none;
         width: 1rem; }
         .comments-container div .name .dlt-btn img {
-          width: 100%; }
+          width: 100%;
+          cursor: pointer; }
     .comments-container div p {
       margin: 5px 0; }
+  .comments-container .comment-activity {
+    display: flex; }
+  .comments-container .like-unlike {
+    width: 1rem;
+    border: none;
+    outline: none;
+    margin-left: 10px;
+    background-color: transparent; }
+    .comments-container .like-unlike img {
+      width: 100%;
+      height: 100%;
+      cursor: pointer; }
 
 .comments-container::-webkit-scrollbar {
   display: none; }

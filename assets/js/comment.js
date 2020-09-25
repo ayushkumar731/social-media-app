@@ -1,58 +1,3 @@
-/*
-const commentForm = document.querySelectorAll('.form-comment');
-
-if (commentForm) {
-  commentForm.forEach((el) => {
-    el.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const { commentId } = e.target.dataset;
-      document.getElementById(`comment-btn-${commentId}`).textContent =
-        'Processing...';
-      const content = document.getElementById(`comment-${commentId}`).value;
-
-      await comment(content, commentId);
-      document.getElementById(`comment-${commentId}`).value = '';
-      document.getElementById(`comment-btn-${commentId}`).textContent = 'Post';
-    });
-  });
-}
-
-const comment = async (content, commentId) => {
-  try {
-    const res = await axios({
-      method: 'POST',
-      url: `/api/v1/comment/${commentId}`,
-      data: {
-        content,
-      },
-    });
-    console.log(res);
-    let newComment = newCommentDom(res.data.data);
-    $(`#comment-container-${commentId}`).prepend(newComment);
-  } catch (err) {
-    alert(err.response.data.message);
-  }
-};
-
-let newCommentDom = function (comments) {
-  return $(`   <div id="comment-${comments.id}">
-    <div class="name">
-      <a href="/${comments.user._id}">${comments.user.name}</a>
-      
-      <button class="dlt-btn">
-        <img
-          src=" https://www.flaticon.com/svg/static/icons/svg/1828/1828843.svg"
-          data-dlt-comment-id="${comments.id}"
-        />
-      </button>
-    
-    </div>
-    <p>${comments.content}</p>
-  </div>
-  <hr />`);
-};
-*/
-
 class PostComments {
   // constructor is used to initialize the instance of the class whenever a new instance is created
   constructor(postId) {
@@ -76,36 +21,12 @@ class PostComments {
       const { commentId } = e.target.dataset;
 
       document.getElementById(`comment-btn-${commentId}`).textContent =
-        'Processing...';
+        'Pro...';
       const content = document.getElementById(`comment-${commentId}`).value;
 
       await comment(content, commentId);
       document.getElementById(`comment-${commentId}`).value = '';
       document.getElementById(`comment-btn-${commentId}`).textContent = 'Post';
-      // $.ajax({
-      //   type: 'post',
-      //   url: '/comments/create',
-      //   data: $(self).serialize(),
-      //   success: function (data) {
-      //     let newComment = pSelf.newCommentDom(data.data.comment);
-      //     $(`#post-comments-${postId}`).prepend(newComment);
-      //
-
-      //     // CHANGE :: enable the functionality of the toggle like button on the new comment
-      //     new ToggleLike($(' .toggle-like-button', newComment));
-
-      //     new Noty({
-      //       theme: 'relax',
-      //       text: 'Comment published!',
-      //       type: 'success',
-      //       layout: 'topRight',
-      //       timeout: 1500,
-      //     }).show();
-      //   },
-      //   error: function (error) {
-      //     console.log(error.responseText);
-      //   },
-      // });
     });
 
     const comment = async (content, commentId) => {
@@ -118,11 +39,14 @@ class PostComments {
             content,
           },
         });
+        console.log(res);
         let newComment = newCommentDom(res.data.data);
+        console.log(newComment);
         $(`#comment-container-${commentId}`).prepend(newComment);
         pSelf.deleteComment($(' .delete-comment-button', newComment));
+        new ToggleLike($(' .toggle-like-button', newComment));
       } catch (err) {
-        alert(err.response.data.message);
+        alert(err);
       }
     };
 
@@ -141,6 +65,22 @@ class PostComments {
         
         </div>
         <p>${comments.content}</p>
+
+        <div class="comment-activity">
+        <div class="likes" id="Comment-like-${comments.id}">
+          ${comments.likes.length} likes
+        </div>
+        <button class="like-unlike">
+          <img
+            src="https://www.flaticon.com/svg/static/icons/svg/3507/3507627.svg"
+            data-like-id="${comments.id}"
+            data-like-model="Comment"
+            class="toggle-like-button"
+            data-likes="${comments.likes.length}"
+            alt="like-icon"
+          />
+        </button>
+      </div>
         <hr />
       </div>
     `);
