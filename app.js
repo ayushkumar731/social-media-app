@@ -15,6 +15,8 @@ const jwtPassport = require('./config/passport-jwt-strategy');
 
 const sassMiddleware = require('node-sass-middleware');
 
+app.enable('trust proxy');
+
 if (process.env.NODE_ENV !== 'production') {
   app.use(
     sassMiddleware({
