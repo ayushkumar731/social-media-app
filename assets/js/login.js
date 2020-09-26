@@ -1,19 +1,6 @@
-const logInForm = document.getElementById('form-login');
+import { showAlert } from './alerts';
 
-if (logInForm) {
-  logInForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    document.getElementById('log-in').textContent = 'Processing...';
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    await login(email, password);
-    document.getElementById('log-in').textContent = 'Log In';
-    document.getElementById('email').value='';
-    document.getElementById('password').value='';
-  });
-}
-
-const login = async (email, password) => {
+export const login = async (email, password) => {
   try {
     const res = await axios({
       method: 'POST',
@@ -24,11 +11,12 @@ const login = async (email, password) => {
       },
     });
     if (res.data.status === 'success') {
+      showAlert('success', 'Logged in successfully!');
       window.setTimeout(() => {
         location.assign('/');
       }, 1000);
     }
   } catch (err) {
-    window.alert(err.response.data.message)
+    showAlert('error', err.response.data.message);
   }
 };

@@ -1,19 +1,21 @@
-const search = document.getElementById('search-user');
+import { searchBtn } from './index';
+import { showAlert } from './alerts';
+
 let searchedContainer = document.getElementById('searched-user');
-if (search) {
-  search.addEventListener('keyup', async () => {
-    try {
-      const searchValue = search.value;
-      if (searchValue == '') {
-        searchedContainer.innerHTML = '';
-      } else {
-        const res = await axios({
-          method: 'GET',
-          url: `/api/v1/search/${searchValue}`,
-        });
-        searchedContainer.innerHTML = '';
-        for (let user of res.data.data.user) {
-          var searchUser = `<div class="searched-user-container">
+
+export const search = async () => {
+  try {
+    const searchValue = searchBtn.value;
+    if (searchValue == '') {
+      searchedContainer.innerHTML = '';
+    } else {
+      const res = await axios({
+        method: 'GET',
+        url: `/api/v1/search/${searchValue}`,
+      });
+      searchedContainer.innerHTML = '';
+      for (let user of res.data.data.user) {
+        var searchUser = `<div class="searched-user-container">
             <div class="user-photo">
                 <img src="/img/users/${user.photo}" alt="user-photo" />
             </div>
@@ -22,11 +24,10 @@ if (search) {
                 <div class="user-email">${user.email}</div>
              </div>
           </div>`;
-          searchedContainer.innerHTML += searchUser;
-        }
+        searchedContainer.innerHTML += searchUser;
       }
-    } catch (err) {
-      alert('try search again');
     }
-  });
-}
+  } catch (err) {
+    showAlert('error', 'Please Try Again');
+  }
+};

@@ -1,17 +1,6 @@
-const forgotForm = document.getElementById('form-forgot');
+import { showAlert } from './alerts';
 
-if (forgotForm) {
-  forgotForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    document.getElementById('forgot').textContent = 'Processing...';
-    const email = document.getElementById('email').value;
-    await forgot(email);
-    document.getElementById('forgot').textContent = 'Send Login Link';
-    document.getElementById('email').value = '';
-  });
-}
-
-const forgot = async (email) => {
+export const forgot = async (email) => {
   try {
     const res = await axios({
       method: 'POST',
@@ -21,11 +10,9 @@ const forgot = async (email) => {
       },
     });
     if (res.data.status === 'success') {
-      window.setTimeout(() => {
-        location.assign('/email-verification');
-      }, 1000);
+      showAlert('success', 'Check Your Mail');
     }
   } catch (err) {
-      window.alert(err.response.data.message)
+    showAlert('error', err.response.data.message);
   }
 };

@@ -1,23 +1,6 @@
-const signUpForm = document.getElementById('form-signup');
+import { showAlert } from './alerts';
 
-if (signUpForm) {
-  signUpForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    document.getElementById('sign-up').textContent = 'Processing...';
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
-    await signup(name, email, password, confirmPassword);
-    document.getElementById('sign-up').textContent = 'Sign up';
-    document.getElementById('name').value='';
-    document.getElementById('email').value='';
-    document.getElementById('password').value='';
-    document.getElementById('confirmPassword').value='';
-  });
-}
-
-const signup = async (name, email, password, confirmPassword) => {
+export const signup = async (name, email, password, confirmPassword) => {
   try {
     const res = await axios({
       method: 'POST',
@@ -35,6 +18,6 @@ const signup = async (name, email, password, confirmPassword) => {
       }, 1000);
     }
   } catch (err) {
-    window.alert(err.response.data.message)
+    showAlert('error', err.response.data.message);
   }
 };

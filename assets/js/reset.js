@@ -1,20 +1,6 @@
-const resetFrom = document.getElementById('form-reset');
+import { showAlert } from './alerts';
 
-if (resetFrom) {
-  resetFrom.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    document.getElementById('reset').textContent = 'Processing...';
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
-    const url = window.location.href;
-    await reset(password, confirmPassword, url);
-    document.getElementById('reset').textContent = 'Reset Password';
-    document.getElementById('password').value = '';
-    document.getElementById('confirmPassword').value = '';
-  });
-}
-
-const reset = async (password, confirmPassword, url) => {
+export const reset = async (password, confirmPassword, url) => {
   try {
     const res = await axios({
       method: 'PATCH',
@@ -29,8 +15,9 @@ const reset = async (password, confirmPassword, url) => {
       window.setTimeout(() => {
         location.assign('/');
       }, 1000);
+      showAlert('success', 'Password changed successfully');
     }
   } catch (err) {
-    window.alert(err.response.data.message);
+    showAlert('error', err.response.data.message);
   }
 };
