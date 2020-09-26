@@ -5,6 +5,7 @@ const db = require('./config/mongoose');
 const globalErrorHandler = require('./controllers/errorController');
 const AppError = require('./config/AppError');
 const cookieParser = require('cookie-parser');
+const compression = require('compression');
 const expressLayouts = require('express-ejs-layouts');
 const cors = require('cors');
 
@@ -49,6 +50,8 @@ app.set('layout extractScripts', true);
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(compression());
 
 app.use('/', require('./routes'));
 
