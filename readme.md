@@ -1,6 +1,6 @@
-# Social Media Api
+# Social Media App
 
-> I create API of social media app like instagram etc.It is fully function which is mention of features section go through that.
+> I create API and Frontend(woking...) of social media app .It is fully function which is mention of features section go through that.
 
 ## Table Of Content
 
@@ -33,35 +33,83 @@
 
 ## Technology Used
 
-| Technology      | Version |
-| --------------- | ------- |
-| bcryptjs        | 2.4.3   |
-| body-parser     | 1.19.0  |
-| cookie-parser   | 1.4.5   |
-| cors            | 2.8.5   |
-| crypto          | 1.0.1   |
-| dotenv          | 8.2.0   |
-| express         | 4.17.1  |
-| express-session | 1.17.1  |
-| jsonwebtoken    | 8.5.1   |
-| mongoose        | 5.10.2  |
-| multer          | 1.4.2   |
-| nodemailer      | 6.4.11  |
-| nodemon         | 2.0.4   |
-| passport        | 0.4.1   |
-| passport-jwt    | 4.0.0   |
-| sharp           | 0.26.0  |
+| Technology           | Version |
+| -------------------- | ------- |
+| babel-core           | 6.26.3  |
+| babel-loader         | 7.1.4   |
+| babel-preset-env     | 1.7.0   |
+| babel-polyfill       | 6.26.0  |
+| bcryptjs             | 2.4.3   |
+| body-parser          | 1.19.0  |
+| cookie-parser        | 1.4.5   |
+| cors                 | 2.8.5   |
+| crypto               | 1.0.1   |
+| dotenv               | 8.2.0   |
+| ejs                  | 3.1.5   |
+| express              | 4.17.1  |
+| express-ejs-layouts  | 2.5.0   |
+| express-session      | 1.17.1  |
+| jsonwebtoken         | 8.5.1   |
+| mongoose             | 5.10.2  |
+| multer               | 1.4.2   |
+| nodemailer           | 6.4.11  |
+| node-sass-middleware | 0.11.0  |
+| nodemon              | 2.0.4   |
+| passport             | 0.4.1   |
+| passport-jwt         | 4.0.0   |
+| sharp                | 0.26.0  |
+| webpack              | 4.44.2  |
+| webpack-cli          | 3.3.12  |
 
 ## Folder Structure
 
 ```
 social-media-app
 ├─ assets
-│  └─ img
-│     └─ users
-│        ├─ default.jpg
-│        ├─ user-5f5e2e186e3a162e18e494ab-1600008397368.jpeg
-│        └─ user-5f5e313733ef59373c2d04e3-1600008602037.jpeg
+│  ├─ css
+│  │  ├─ emailverify.css
+│  │  ├─ header.css
+│  │  ├─ home.css
+│  │  ├─ layout.css
+│  │  ├─ post.css
+│  │  ├─ profile.css
+│  │  ├─ setting.css
+│  │  └─ sign.css
+│  ├─ img
+│  │  ├─ posts
+│  │  │  ├─ post-5f6ea4771c55f9233929a1c6-1601086780006.jpeg
+│  │  │  ├─ post-5f6ea4aa1c55f9233929a1c7-1601094983371.jpeg
+│  │  │  └─ post-5f6ebbe27da9d74470f1ef5c-1601092964445.jpeg
+│  │  ├─ users
+│  │  │  ├─ default.jpg
+│  │  │  ├─ user-5f6ea4771c55f9233929a1c6-1601086793774.jpeg
+│  │  │  ├─ user-5f6ea4aa1c55f9233929a1c7-1601095165018.jpeg
+│  │  │  └─ user-5f6ebbe27da9d74470f1ef5c-1601092828519.jpeg
+│  │  └─ favicon.png
+│  ├─ js
+│  │  ├─ alerts.js
+│  │  ├─ bundle.js
+│  │  ├─ comment.js
+│  │  ├─ forgot.js
+│  │  ├─ header.js
+│  │  ├─ index.js
+│  │  ├─ like.js
+│  │  ├─ login.js
+│  │  ├─ logout.js
+│  │  ├─ post.js
+│  │  ├─ reset.js
+│  │  ├─ search.js
+│  │  ├─ signup.js
+│  │  └─ usersettings.js
+│  └─ scss
+│     ├─ emailverify.scss
+│     ├─ header.scss
+│     ├─ home.scss
+│     ├─ layout.scss
+│     ├─ post.scss
+│     ├─ profile.scss
+│     ├─ setting.scss
+│     └─ sign.scss
 ├─ config
 │  ├─ AppError.js
 │  ├─ catchAsynch.js
@@ -79,7 +127,8 @@ social-media-app
 │  │     ├─ postController.js
 │  │     ├─ searchController.js
 │  │     └─ userController.js
-│  └─ errorController.js
+│  ├─ errorController.js
+│  └─ homecontroller.js
 ├─ models
 │  ├─ comments.js
 │  ├─ friendships.js
@@ -97,13 +146,29 @@ social-media-app
 │  │  │  ├─ search.js
 │  │  │  └─ user.js
 │  │  └─ index.js
+│  ├─ accounts.js
 │  └─ index.js
+├─ views
+│  ├─ _header.ejs
+│  ├─ _post.ejs
+│  ├─ emailVerify.ejs
+│  ├─ forgot.ejs
+│  ├─ home.ejs
+│  ├─ layout.ejs
+│  ├─ profile.ejs
+│  ├─ reset-password.ejs
+│  ├─ setting.ejs
+│  ├─ sign-in.ejs
+│  └─ sign-up.ejs
+├─ .babelrc
 ├─ .gitignore
 ├─ app.js
 ├─ package-lock.json
 ├─ package.json
 ├─ readme.md
-└─ server.js
+├─ server.js
+└─ webpack.config.js
+
 ```
 
 ## Quick Start
