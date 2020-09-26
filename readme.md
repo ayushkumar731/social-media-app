@@ -1,6 +1,6 @@
 # Social Media App
 
-> I create API and Frontend(woking...) of social media app .It is fully function which is mention of features section go through that.
+> A social media app which is build by an API.with this api any frontend developer makes a social media app .All routes are available in [Quick Start](#Quick-Start) section.It is fully function which is mention of features section go through that.
 
 ## Table Of Content
 
