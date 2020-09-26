@@ -164,7 +164,7 @@ social-media-app
 - POST -> **/api/v1/user/create** (to signup the user)
 - GET -> **/api/v1/user/email-verify/tokenId** (to veify the email id.User receive token at the end of url.Paste it in place of tokenId and verify the user).
 - POST -> **/api/v1/user/create-session** (to login the user).
-- POST -> **/api/v1/user/logout** (to logout the user).
+- GET -> **/api/v1/user/logout** (to logout the user).
 - POST -> **/api/v1/user/forgot-password** (to forget the password.User receive an email).
 - PATCH -> **localhost/api/v1/user/reset-password/tokenId** (to reset the password paste the token id instead of tokenId which received in the mail)
 - PATCH -> **/api/v1/user/update-password** (to update the password).
