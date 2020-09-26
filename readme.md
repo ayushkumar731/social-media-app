@@ -8,6 +8,7 @@
 - [Technology Used](#Technology-Used)
 - [Folder Structure](#Folder-Structure)
 - [Quick Start](#Quick-Start)
+- [Links](#Links)
 
 ## Features
 
@@ -252,3 +253,7 @@ social-media-app
 - GET -> **/api/v1/user/profile/userId** (to get the information of other user .paste the id of **other user** instead of **userId**).
 - Delete -> **/api/v1/user/profile/me** (to delete the current user from database and also all activity deleted).
 - PATCH -> **/api/v1/user/profile/me** (to update the current profile like name,email,photo).
+
+## Links
+
+**Deployed Link** :- [socialinsta](https://socialinsta.herokuapp.com)
