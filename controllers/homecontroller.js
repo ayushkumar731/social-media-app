@@ -70,7 +70,6 @@ exports.resetForgotPass = catchAsync(async (req, res, next) => {
 
 exports.profile = catchAsync(async (req, res, next) => {
   const linkUser = await User.findById(req.params.id);
-  // console.log(req.user);
   const currUser = await User.findById(req.user._id);
   if (!linkUser) {
     return next(new AppError('User Not Found'));

@@ -39,9 +39,7 @@ class PostComments {
             content,
           },
         });
-        console.log(res);
         let newComment = newCommentDom(res.data.data);
-        console.log(newComment);
         $(`#comment-container-${commentId}`).prepend(newComment);
         pSelf.deleteComment($(' .delete-comment-button', newComment));
         new ToggleLike($(' .toggle-like-button', newComment));

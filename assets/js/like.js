@@ -9,18 +9,14 @@ class ToggleLike {
       e.preventDefault();
       let self = this;
       const { likeId, likeModel, likes } = e.target.dataset;
-      //   console.log(likeModel, likeId, likes);
       if (likeModel && likeId && likes) {
         try {
-          console.log(likeId, likeModel, likes);
           const res = await axios({
             method: 'POST',
             url: `/api/v1/like?id=${likeId}&type=${likeModel}`,
           });
-          console.log(res);
           if (res.data.status === 'success') {
             let likeCount = parseInt(likes);
-            console.log(likeCount);
             if (res.data.data.deleted == true) {
               likeCount -= 1;
             } else {
