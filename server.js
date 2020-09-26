@@ -5,7 +5,7 @@ const app = require('./app');
 
 const port = process.env.PORT || 3000;
 
-app.listen(port, (err) => {
+const server = app.listen(port, (err) => {
   if (err) {
     console.log(`App is not running on port ${port}`);
   }
