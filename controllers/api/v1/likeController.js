@@ -77,7 +77,7 @@ exports.likeDestroyByComment = catchAsync(async (req, res, next) => {
     return next(new AppError('Comment not found', 404));
   }
 
-  if (comment.user._id != req.user.id && req.user.id != post.user.id) {
+  if (comment.user._id != req.user.id && req.user.id != comment.post.user.id) {
     return next(
       new AppError('You do have permission to perform this action', 401)
     );

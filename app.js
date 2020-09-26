@@ -12,17 +12,19 @@ const session = require('express-session');
 const passport = require('passport');
 const jwtPassport = require('./config/passport-jwt-strategy');
 
-const sassMiddleware=require('node-sass-middleware');
+const sassMiddleware = require('node-sass-middleware');
 
-app.use(sassMiddleware({
-    src: path.join(__dirname,'assets','scss'),
-    dest: path.join(__dirname,'assets','css'),
-    debug: true,
-    outputStyle:'extended',
-    prefix:'/css'
-}));
-
-
+if (process.env.NODE_ENV !== 'production') {
+  app.use(
+    sassMiddleware({
+      src: path.join(__dirname, 'assets', 'scss'),
+      dest: path.join(__dirname, 'assets', 'css'),
+      debug: true,
+      outputStyle: 'extended',
+      prefix: '/css',
+    })
+  );
+}
 
 //setup view engine
 app.set('view engine', 'ejs');
@@ -42,8 +44,8 @@ app.use(cookieParser());
 
 app.use(expressLayouts);
 //extract style and scripts from sub page of the layout
-app.set('layout extractStyles',true);
-app.set('layout extractScripts',true);
+app.set('layout extractStyles', true);
+app.set('layout extractScripts', true);
 
 app.use(passport.initialize());
 app.use(passport.session());

@@ -69,16 +69,19 @@ exports.resetForgotPass = catchAsync(async (req, res, next) => {
 });
 
 exports.profile = catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.params.id);
-  if (!user) {
+  const linkUser = await User.findById(req.params.id);
+  // console.log(req.user);
+  const currUser = await User.findById(req.user._id);
+  if (!linkUser) {
     return next(new AppError('User Not Found'));
   }
   const post = await Post.find({ user: req.params.id });
 
   return res.render('profile', {
-    title: ` profile | ${user.name}`,
+    title: ` profile | ${linkUser.name}`,
     posts: post,
-    user: user,
+    linkUser: linkUser,
+    user: currUser,
   });
 });
 
