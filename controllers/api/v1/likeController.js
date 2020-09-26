@@ -53,12 +53,12 @@ exports.likeDestrobyPost = catchAsync(async (req, res, next) => {
   const post = await Post.findById(req.params.id);
 
   if (!post) {
-    return next(new AppError('Doc Post Found', 404));
+    return next(new AppError('No Post Found', 404));
   }
 
   if (post.user._id != req.user.id) {
     return next(
-      new AppError('You do have permission to perform this action', 401),
+      new AppError('You do have permission to perform this action', 401)
     );
   }
 
@@ -72,14 +72,14 @@ exports.likeDestrobyPost = catchAsync(async (req, res, next) => {
 
 //**********IF ONLY COMMENTS DELTED THEN RUN THIS MIDDLEWARE*****************//
 exports.likeDestroyByComment = catchAsync(async (req, res, next) => {
-  const comment = await Comment.findById(req.params.id);
+  const comment = await Comment.findById(req.params.id).populate('post');
   if (!comment) {
     return next(new AppError('Comment not found', 404));
   }
 
-  if (comment.user._id != req.user.id) {
+  if (comment.user._id != req.user.id && req.user.id != comment.post.user.id) {
     return next(
-      new AppError('You do have permission to perform this action', 401),
+      new AppError('You do have permission to perform this action', 401)
     );
   }
   await Like.deleteMany({ likeable: comment, onModel: 'Comment' });

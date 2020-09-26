@@ -29,7 +29,6 @@ exports.resizePostImages = catchAsync(async (req, res, next) => {
   if (!req.file) return next();
 
   req.file.filename = `post-${req.user.id}-${Date.now()}.jpeg`;
-  // console.log(req.file);
 
   await sharp(req.file.buffer)
     .resize(640, 320)
@@ -51,8 +50,8 @@ exports.updatePost = handleFactory.updateOne(Post);
 
 //******************CREATE POST DATA*********************//
 exports.postCreate = handleFactory.createOne(Post, {
-  path: 'user',
-  select: 'name -_id',
+  path: 'user likes',
+  select: 'name photo',
 });
 
 //**********************DELETE POST************************//

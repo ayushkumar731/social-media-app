@@ -20,7 +20,7 @@ const PostSchema = new Schema(
     timestamps: true,
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
-  },
+  }
 );
 
 //virtual populate for comments
@@ -39,7 +39,7 @@ PostSchema.virtual('likes', {
 PostSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'user',
-    select: 'name',
+    select: 'name photo',
   });
   next();
 });
