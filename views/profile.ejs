@@ -8,8 +8,11 @@
       <p id="user-name"><%=linkUser.name%></p>
       <p id="user-email"><%=linkUser.email%></p>
       <p id="post-length"><%=posts.length%> posts</p>
-      <%if(user.id!=linkUser.id){%>
-        <button id="user-friendship" data-to-user-"<%=linkUser.id%>">Add Friend</button>
+      <%if(user.id!=linkUser.id&&friend==undefined){%>
+        <button id="user-friendship" data-to-user-"<%=linkUser.id%>">Follow</button>
+      <%}%>
+      <%if(user.id!=linkUser.id&&friend!=undefined){%>
+        <button id="user-friendship" data-to-user-"<%=linkUser.id%>">Unfollow</button>
       <%}%>
     </div>
   </div>

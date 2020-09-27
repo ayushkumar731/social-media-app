@@ -89,12 +89,5 @@ UserSchema.methods.changedPasswordResetToken = async function () {
   return resetToken;
 };
 
-UserSchema.pre(/^find/, function (next) {
-  this.populate({
-    path: 'friends',
-  });
-  next();
-});
-
 const user = mongoose.model('User', UserSchema);
 module.exports = user;

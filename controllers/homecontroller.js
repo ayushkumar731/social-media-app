@@ -2,6 +2,7 @@ const catchAsync = require('../config/catchAsynch');
 const Post = require('../models/posts');
 const User = require('../models/user');
 const AppError = require('../config/AppError');
+const Friends = require('../models/friendships');
 
 module.exports.home = catchAsync(async (req, res, next) => {
   const posts = await Post.find({})
@@ -71,6 +72,11 @@ exports.resetForgotPass = catchAsync(async (req, res, next) => {
 exports.profile = catchAsync(async (req, res, next) => {
   const linkUser = await User.findById(req.params.id);
   const currUser = await User.findById(req.user._id);
+  const friend = await Friends.findOne({
+    from_user: req.user._id,
+    to_user: req.params.id,
+  });
+
   if (!linkUser) {
     return next(new AppError('User Not Found'));
   }
@@ -81,6 +87,7 @@ exports.profile = catchAsync(async (req, res, next) => {
     posts: post,
     linkUser: linkUser,
     user: currUser,
+    friend,
   });
 });
 
