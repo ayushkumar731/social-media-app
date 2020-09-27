@@ -17,7 +17,7 @@ const createSendToken = (user, data, statusCode, req, res) => {
 
   res.cookie('jwt', token, {
     expires: new Date(
-      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000,
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
     httpOnly: true,
   });
@@ -43,9 +43,7 @@ exports.friend = catchAsync(async (req, res, next) => {
   });
 
   if (existingFriend) {
-    toUser.friends.pull(existingFriend._id);
     fromUser.friends.pull(existingFriend._id);
-    toUser.save({ validateBeforeSave: false });
     fromUser.save({ validateBeforeSave: false });
     existingFriend.remove();
     deleted = true;
@@ -55,9 +53,7 @@ exports.friend = catchAsync(async (req, res, next) => {
       to_user: req.query.id,
     });
 
-    toUser.friends.push(newFriend);
     fromUser.friends.push(newFriend);
-    toUser.save({ validateBeforeSave: false });
     fromUser.save({ validateBeforeSave: false });
   }
   createSendToken(req.user, deleted, 200, req, res);
