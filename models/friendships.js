@@ -15,8 +15,15 @@ const FriendSchema = new Schema(
   },
   {
     timestamps: true,
-  },
+  }
 );
+
+FriendSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'to_user',
+  });
+  next();
+});
 
 const friend = mongoose.model('Friend', FriendSchema);
 module.exports = friend;
