@@ -18,6 +18,16 @@
         font-size: 1.5rem;
         margin-bottom: 1rem;
         font-weight: bold; }
+      #profile-container #profile-show #user-data #user-friendship {
+        padding: 8px;
+        width: 10rem;
+        text-align: center;
+        font-size: 1.1rem;
+        background-color: dodgerblue;
+        color: #fff;
+        cursor: pointer;
+        outline: none;
+        border: none; }
   #profile-container #user-post {
     display: flex;
     flex-wrap: wrap;

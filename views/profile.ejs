@@ -8,6 +8,9 @@
       <p id="user-name"><%=linkUser.name%></p>
       <p id="user-email"><%=linkUser.email%></p>
       <p id="post-length"><%=posts.length%> posts</p>
+      <%if(user.id!=linkUser.id){%>
+        <button id="user-friendship" data-to-user-"<%=linkUser.id%>">Add Friend</button>
+      <%}%>
     </div>
   </div>
   <hr />

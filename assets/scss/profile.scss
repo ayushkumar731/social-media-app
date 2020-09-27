@@ -22,6 +22,17 @@
         margin-bottom: 1rem;
         font-weight: bold;
       }
+      #user-friendship {
+        padding: 8px;
+        width: 10rem;
+        text-align: center;
+        font-size: 1.1rem;
+        background-color: dodgerblue;
+        color: #fff;
+        cursor: pointer;
+        outline: none;
+        border: none;
+      }
     }
   }
   #user-post {
