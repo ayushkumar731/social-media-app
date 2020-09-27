@@ -6,7 +6,7 @@
     padding: 0 8rem 2rem;
     display: flex;
     #user-photo {
-      width: 10rem;
+      width: 12rem;
 
       img {
         width: 100%;
@@ -28,6 +28,19 @@
         text-align: center;
         font-size: 1.1rem;
         background-color: dodgerblue;
+        font-weight: bolder;
+        color: #fff;
+        cursor: pointer;
+        outline: none;
+        border: none;
+      }
+      #user-unfriendship {
+        padding: 8px;
+        width: 10rem;
+        text-align: center;
+        font-size: 1.1rem;
+        font-weight: bold;
+        background-color: red;
         color: #fff;
         cursor: pointer;
         outline: none;
