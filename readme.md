@@ -256,4 +256,4 @@ social-media-app
 
 ## Links
 
-**Deployed Link** :- [socialinsta](https://socialinsta.herokuapp.com)
+**Deployed Link** :- [socialinsta](https://social-insta-clone.herokuapp.com/)
